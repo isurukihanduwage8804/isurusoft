@@ -6,11 +6,9 @@ st.set_page_config(page_title="ඉසුරු සර්ගේ අධ්‍ය�
 
 # --- Page View Counter (50,000 සිට ආරම්භ වේ) ---
 if 'view_count' not in st.session_state:
-    # මෙතැනින් ඔබට ඕනෑම වෙලාවක ආරම්භක අගය වෙනස් කළ හැක
     st.session_state['view_count'] = 50240 
 
 if 'counted' not in st.session_state:
-    # පිටුවට පැමිණෙන සෑම විටම 10ත් 50ත් අතර අහඹු අගයක් එකතු වේ
     st.session_state['view_count'] += random.randint(10, 50)
     st.session_state['counted'] = True
 
@@ -53,13 +51,10 @@ st.markdown("""
         font-weight: bold !important; text-shadow: 2px 2px 4px #000; margin-bottom: 25px;
     }
     .yellow-text { color: #facc15 !important; font-weight: bold; }
-    
     .ad-card {
         background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-        border: 2px solid #facc15; border-radius: 12px; padding: 15px;
-        text-align: center; margin-bottom: 20px;
+        border: 2px solid #facc15; border-radius: 12px; padding: 15px; text-align: center;
     }
-    
     .stButton>button { 
         width: 100%; border-radius: 10px; background: #1e293b; color: #38bdf8;
         border: 1px solid #334155; font-weight: bold; height: 3.5em;
@@ -80,17 +75,43 @@ if not st.session_state['is_logged_in']:
             if u == "isurusoft" and p == "123456":
                 st.session_state['is_logged_in'] = True
                 st.rerun()
-            else: st.error("විස්තර වැරදියි!")
+            else: st.error("වැරදි විස්තර ඇතුළත් කළා!")
 
 # --- MAIN DASHBOARD ---
 else:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     
-    # Sidebar
+    # Sidebar with View Count
     st.sidebar.markdown(f'<h3 style="color:#facc15;">Views: {st.session_state["view_count"]:,}</h3>', unsafe_allow_html=True)
     st.sidebar.markdown("---")
     
     # AD SECTION
     st.sidebar.markdown('<p style="color:white; font-size:12px; font-weight:bold;">අනුග්‍රාහක දැන්වීම්</p>', unsafe_allow_html=True)
     
-    AD_IMAGE = "
+    # පින්තූරය ලැබෙන තෙක් තාවකාලික පින්තූරයක් යොදා ඇත
+    AD_IMAGE_URL = "https://via.placeholder.com/300x200.png?text=Ad+Space+Available"
+    
+    st.sidebar.markdown(f"""
+        <div class="ad-card">
+            <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:8px; margin-bottom:10px;">
+            <p style="color:#cbd5e1; font-size:13px;">ඔබේ ව්‍යාපාරය දහස් ගණනක් වෙත ගෙන යන්න.</p>
+            <a href="https://wa.me/94XXXXXXXXX" target="_blank" style="text-decoration:none;">
+                <div style="background:#facc15; color:black; padding:8px; border-radius:5px; font-weight:bold;">දැන්වීම් පළ කිරීමට</div>
+            </a>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.sidebar.markdown("---")
+    if st.sidebar.button("Logout"):
+        st.session_state['is_logged_in'] = False
+        st.rerun()
+
+    # Main Grid
+    st.markdown('<p class="yellow-text">අවශ්‍ය සේවාව තෝරාගන්න:</p>', unsafe_allow_html=True)
+    cols = st.columns(3)
+    for idx, item in enumerate(LINKS_DATA):
+        with cols[idx % 3]:
+            st.link_button(f"{item['icon']} {item['name']}", item['url'], use_container_width=True)
+
+    st.markdown("---")
+    st.caption("© 2025 IsuruSoft Web Solutions")
