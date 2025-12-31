@@ -3,7 +3,7 @@ import streamlit as st
 # 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව", page_icon="📖", layout="wide")
 
-# ඔබ ලබාදුන් ලින්ක් 23 ම මෙහි අඩංගු වේ
+# ලින්ක් 23 සහ ඒවාට අදාළ අයිකන්
 LINKS_DATA = [
     {"name": "Graph Art 2", "url": "https://nicegrap2.streamlit.app/", "icon": "🎨"},
     {"name": "IsuruSoft Portal", "url": "https://isurusoft.streamlit.app/", "icon": "🌐"},
@@ -30,7 +30,6 @@ LINKS_DATA = [
     {"name": "Maths 680", "url": "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/", "icon": "🎓"}
 ]
 
-# Login තත්ත්වය පවත්වා ගැනීම
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
@@ -43,7 +42,6 @@ st.markdown("""
         background: linear-gradient(135deg, #1e293b 0%, #334155 100%); 
         color: #38bdf8; font-weight: bold; border: 1px solid #334155; height: 4em;
     }
-    /* මාතෘකාව රතු පැහැ ගැන්වීම */
     .main-title {
         text-align: center; color: #ff0000; font-size: 40px; font-weight: bold;
         text-shadow: 2px 2px 4px #000; margin-bottom: 20px;
@@ -54,6 +52,46 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- ලොගින් පද්ධතිය ---
+# --- LOGIN SECTION ---
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</h1>', unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.markdown('<p class="yellow-text">පරිශීලක නම (Username)</p>', unsafe_allow_html=True)
+        user_input = st.text_input("", key="user_login_field", label_visibility="collapsed")
+        
+        st.markdown('<p class="yellow-text">මුරපදය (Password)</p>', unsafe_allow_html=True)
+        pass_input = st.text_input("", type="password", key="pass_login_field", label_visibility="collapsed")
+        
+        st.write("") 
+        if st.button("ඇතුළු වන්න (Login)"):
+            if user_input == "isurusoft" and pass_input == "123456":
+                st.session_state['is_logged_in'] = True
+                st.rerun()
+            else:
+                st.error("පරිශීලක නම හෝ මුරපදය වැරදියි!")
+
+# --- DASHBOARD SECTION ---
+else:
+    st.markdown('<h1 class="main-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</h1>', unsafe_allow_html=True)
+    
+    if st.sidebar.button("Logout"):
+        st.session_state['is_logged_in'] = False
+        st.rerun()
+    
+    st.markdown('<p class="yellow-text">ඔබට අවශ්‍ය ක්‍රීඩාව හෝ සේවාව තෝරාගන්න:</p>', unsafe_allow_html=True)
+    st.markdown("---")
+
+    cols_per_row = 3
+    for i in range(0, len(LINKS_DATA), cols_per_row):
+        cols = st.columns(cols_per_row)
+        for j in range(cols_per_row):
+            index = i + j
+            if index < len(LINKS_DATA):
+                item = LINKS_DATA[index]
+                with cols[j]:
+                    st.link_button(f"{item['icon']} {item['name']}", item['url'])
+
+    st.markdown("---")
+    st.caption("© 2025 IsuruSoft Web Solutions")
