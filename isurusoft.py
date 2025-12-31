@@ -18,7 +18,7 @@ if 'is_logged_in' not in st.session_state:
 if 'user_comments' not in st.session_state:
     st.session_state['user_comments'] = []
 
-# --- ලින්ක් දත්ත (නිවැරදි කරන ලද "සංඛ්‍යා ගැටුම" ලින්ක් එක සමඟ) ---
+# --- ලින්ක් දත්ත ---
 CATEGORIES = {
     "🔢 ගණිතය සහ විද්‍යාව (Maths & Science)": [
         {"name": "Geometry Dance", "url": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "icon": "📐"},
@@ -48,4 +48,18 @@ CATEGORIES = {
         {"name": "Therawili", "url": "https://therawili-gzggdyxieygqhaifx6jp8k.streamlit.app/", "icon": "🕵️"},
         {"name": "Money Converter", "url": "https://mony-converter-zhtsej33cdvttrtwqhle4q.streamlit.app/", "icon": "💱"},
         {"name": "Shape Converter", "url": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "icon": "🔄"},
-        {"name": "4 Box Game", "url": "
+        {"name": "4 Box Game", "url": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc.streamlit.app/", "icon": "📦"},
+        {"name": "Tetris Maths", "url": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "icon": "🕹️"}
+    ]
+}
+
+# --- CSS Styling ---
+st.markdown("""
+<style>
+    .stApp { background-color: #0f172a; }
+    .main-title { text-align: center; color: #ff4b4b; font-size: 45px; font-weight: 800; margin-bottom: 20px; }
+    .sub-title { text-align: center; color: #cbd5e1; font-size: 18px; margin-bottom: 40px; }
+    .category-header { background-color: #1e293b; padding: 10px 20px; border-radius: 8px; color: #facc15; font-size: 20px; font-weight: bold; margin-top: 30px; border-left: 5px solid #ff4b4b; }
+    .ad-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 10px; text-align: center; transition: 0.3s; }
+    .ad-card:hover { border-color: #ff4b4b; transform: scale(1.02); }
+    .comment-card
