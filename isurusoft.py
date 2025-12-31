@@ -1,20 +1,20 @@
 import streamlit as st
-import random # අහඹු ලෙස සංඛ්‍යා ගැනීමට
+import random # අහඹු ලෙස පේජ් විව්ස් වැඩි කිරීමට
 
 # 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව", page_icon="📖", layout="wide")
 
 # --- Page View Counter (එක් අයෙකුට 100ත් 150ත් අතර අහඹු ගණනක්) ---
 if 'view_count' not in st.session_state:
-    # මුල්ම වතාවට පිටුවට එන විට පෙන්වන ආරම්භක අගය (ඔබට අවශ්‍ය නම් මෙය 1000 වගේ වෙනස් කළ හැකියි)
-    st.session_state['view_count'] = 500 
+    # ආරම්භක පිරිස (මෙම අගය ඕනෑම වෙලාවක ඔබට වෙනස් කළ හැක)
+    st.session_state['view_count'] = 1500 
 
 if 'counted' not in st.session_state:
-    # සෑම Refresh එකකදීම 100ත් 150ත් අතර ගණනක් එකතු වේ
+    # එක් පිවිසුමකදී 100ත් 150ත් අතර අහඹු අගයක් එකතු වේ
     st.session_state['view_count'] += random.randint(100, 150)
     st.session_state['counted'] = True
 
-# ලින්ක් 23 දත්ත
+# --- ලින්ක් 23 දත්ත ---
 LINKS_DATA = [
     {"name": "Graph Art 2", "url": "https://nicegrap2.streamlit.app/", "icon": "🎨"},
     {"name": "IsuruSoft Portal", "url": "https://isurusoft.streamlit.app/", "icon": "🌐"},
@@ -44,20 +44,28 @@ LINKS_DATA = [
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling ---
+# --- CSS Styling (තද රතු මාතෘකාව සහ කහ අකුරු) ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
+    
+    /* රතු පැහැති මාතෘකාව */
     .red-title {
-        text-align: center; color: #FF0000 !important; font-size: 42px !important; 
-        font-weight: bold !important; text-shadow: 2px 2px 4px #000; margin-bottom: 20px;
+        text-align: center; color: #FF0000 !important; font-size: 40px !important; 
+        font-weight: bold !important; text-shadow: 2px 2px 4px #000; margin-bottom: 25px;
     }
+
+    /* කහ පැහැති අකුරු */
     .yellow-text {
-        color: #facc15 !important; font-weight: bold; font-size: 1.1rem;
+        color: #facc15 !important; font-weight: bold; font-size: 1.1rem; margin-bottom: 8px;
     }
+
+    /* දැන්වීම් කොටුව */
     .ad-box {
         border: 2px solid #facc15; border-radius: 10px; padding: 10px; text-align: center; background-color: #1e293b;
     }
+
+    /* බොත්තම් (Buttons) */
     .stButton>button { 
         width: 100%; border-radius: 12px; 
         background: linear-gradient(135deg, #1e293b 0%, #334155 100%); 
@@ -72,32 +80,37 @@ if not st.session_state['is_logged_in']:
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown('<p class="yellow-text">පරිශීලක නම (Username)</p>', unsafe_allow_html=True)
-        user_input = st.text_input("", key="u_log_final_v2", label_visibility="collapsed")
+        user_input = st.text_input("", key="user_in", label_visibility="collapsed")
         st.markdown('<p class="yellow-text">මුරපදය (Password)</p>', unsafe_allow_html=True)
-        pass_input = st.text_input("", type="password", key="p_log_final_v2", label_visibility="collapsed")
+        pass_input = st.text_input("", type="password", key="pass_in", label_visibility="collapsed")
+        
         if st.button("ඇතුළු වන්න (Login)"):
             if user_input == "isurusoft" and pass_input == "123456":
                 st.session_state['is_logged_in'] = True
                 st.rerun()
-            else: st.error("විස්තර වැරදියි!")
+            else:
+                st.error("පරිශීලක නම හෝ මුරපදය වැරදියි!")
 
-# --- DASHBOARD SECTION ---
+# --- DASHBOARD SECTION (ලොග් වූ පසු) ---
 else:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     
-    # Sidebar Info
+    # --- Sidebar (Views & Ads) ---
     st.sidebar.markdown(f'<p class="yellow-text">Page Views: {st.session_state["view_count"]}</p>', unsafe_allow_html=True)
-    
-    # Ad Section (ඔබට අවශ්‍ය විට AD_IMAGE_URL සහ AD_LINK වෙනස් කරන්න)
     st.sidebar.markdown("---")
-    AD_IMAGE_URL = "https://via.placeholder.com/300x250.png?text=Your+Ad+Here"
-    AD_LINK = "https://isurusoft.streamlit.app/"
+    
+    # දැන්වීම් කොටස (මෙහි ඇති ලින්ක් ඔබට වෙනස් කළ හැක)
+    st.sidebar.markdown('<p style="color:white; font-weight:bold;">අනුග්‍රාහක දැන්වීම්</p>', unsafe_allow_html=True)
+    
+    AD_IMAGE_URL = "https://via.placeholder.com/300x250.png?text=ඔබේ+දැන්වීම+මෙහි"
+    AD_LINK = "https://isurusoft.streamlit.app/" 
+    
     st.sidebar.markdown(f'''
         <div class="ad-box">
             <a href="{AD_LINK}" target="_blank">
                 <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:5px;">
             </a>
-            <p style="color:#facc15; font-size:12px; margin-top:5px;">අනුග්‍රාහක දැන්වීම්</p>
+            <p style="color:#facc15; font-size:12px; margin-top:5px;">විස්තර සඳහා ක්ලික් කරන්න</p>
         </div>
     ''', unsafe_allow_html=True)
     
@@ -106,6 +119,7 @@ else:
         st.session_state['is_logged_in'] = False
         st.rerun()
     
+    # ප්‍රධාන ලින්ක් ටික ප්‍රදර්ශනය කිරීම
     st.markdown('<p class="yellow-text">ඔබට අවශ්‍ය ක්‍රීඩාව හෝ සේවාව තෝරාගන්න:</p>', unsafe_allow_html=True)
     st.markdown("---")
     
@@ -116,7 +130,8 @@ else:
             index = i + j
             if index < len(LINKS_DATA):
                 item = LINKS_DATA[index]
-                with cols[j]: st.link_button(f"{item['icon']} {item['name']}", item['url'])
+                with cols[j]:
+                    st.link_button(f"{item['icon']} {item['name']}", item['url'])
 
     st.markdown("---")
     st.caption("© 2025 IsuruSoft Web Solutions")
