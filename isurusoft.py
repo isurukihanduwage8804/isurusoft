@@ -1,14 +1,20 @@
 import streamlit as st
+import random # අහඹු ලෙස සංඛ්‍යා ගැනීමට
 
-# 1. පිටුවේ මූලික සැකසුම් සහ නම
+# 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව", page_icon="📖", layout="wide")
 
-# 2. Page View Counter එක සකස් කිරීම
+# --- Page View Counter (එක් අයෙකුට 100ත් 150ත් අතර අහඹු ගණනක්) ---
 if 'view_count' not in st.session_state:
-    st.session_state['view_count'] = 0
-st.session_state['view_count'] += 1
+    # මුල්ම වතාවට පිටුවට එන විට පෙන්වන ආරම්භක අගය (ඔබට අවශ්‍ය නම් මෙය 1000 වගේ වෙනස් කළ හැකියි)
+    st.session_state['view_count'] = 500 
 
-# 3. ඔබ ලබාදුන් සියලුම ලින්ක් 23 (පරීක්ෂා කර අවසන්)
+if 'counted' not in st.session_state:
+    # සෑම Refresh එකකදීම 100ත් 150ත් අතර ගණනක් එකතු වේ
+    st.session_state['view_count'] += random.randint(100, 150)
+    st.session_state['counted'] = True
+
+# ලින්ක් 23 දත්ත
 LINKS_DATA = [
     {"name": "Graph Art 2", "url": "https://nicegrap2.streamlit.app/", "icon": "🎨"},
     {"name": "IsuruSoft Portal", "url": "https://isurusoft.streamlit.app/", "icon": "🌐"},
@@ -35,82 +41,74 @@ LINKS_DATA = [
     {"name": "Maths 680", "url": "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/", "icon": "🎓"}
 ]
 
-# 4. Login තත්ත්වය පරීක්ෂා කිරීම
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# 5. CSS Styling (වර්ණ සහ UI)
+# --- CSS Styling ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
-    
-    /* රතු පැහැති මාතෘකාව */
     .red-title {
-        text-align: center; 
-        color: #FF0000 !important; 
-        font-size: 42px !important; 
-        font-weight: bold !important;
-        text-shadow: 2px 2px 4px #000;
-        margin-bottom: 25px;
-        display: block;
+        text-align: center; color: #FF0000 !important; font-size: 42px !important; 
+        font-weight: bold !important; text-shadow: 2px 2px 4px #000; margin-bottom: 20px;
     }
-
-    /* කහ පැහැති ලේබල් */
     .yellow-text {
-        color: #facc15 !important; 
-        font-weight: bold; 
-        font-size: 1.1rem;
-        margin-bottom: 5px;
+        color: #facc15 !important; font-weight: bold; font-size: 1.1rem;
     }
-
-    /* බොත්තම් (Buttons) */
+    .ad-box {
+        border: 2px solid #facc15; border-radius: 10px; padding: 10px; text-align: center; background-color: #1e293b;
+    }
     .stButton>button { 
         width: 100%; border-radius: 12px; 
         background: linear-gradient(135deg, #1e293b 0%, #334155 100%); 
         color: #38bdf8; font-weight: bold; border: 1px solid #334155; height: 4em;
-        transition: 0.3s;
-    }
-    .stButton>button:hover {
-        border-color: #38bdf8;
-        transform: scale(1.02);
     }
 </style>
 """, unsafe_allow_html=True)
 
-# 6. LOGIN SECTION
+# --- LOGIN SECTION ---
 if not st.session_state['is_logged_in']:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
-    
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown('<p class="yellow-text">පරිශීලක නම (Username)</p>', unsafe_allow_html=True)
-        user_input = st.text_input("", key="final_user_in", label_visibility="collapsed")
-        
+        user_input = st.text_input("", key="u_log_final_v2", label_visibility="collapsed")
         st.markdown('<p class="yellow-text">මුරපදය (Password)</p>', unsafe_allow_html=True)
-        pass_input = st.text_input("", type="password", key="final_pass_in", label_visibility="collapsed")
-        
-        st.write("") 
+        pass_input = st.text_input("", type="password", key="p_log_final_v2", label_visibility="collapsed")
         if st.button("ඇතුළු වන්න (Login)"):
             if user_input == "isurusoft" and pass_input == "123456":
                 st.session_state['is_logged_in'] = True
                 st.rerun()
-            else:
-                st.error("පරිශීලක නම හෝ මුරපදය වැරදියි!")
+            else: st.error("විස්තර වැරදියි!")
 
-# 7. DASHBOARD SECTION (ලොග් වූ පසු)
+# --- DASHBOARD SECTION ---
 else:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     
-    # Sidebar එකේ Page Views පෙන්වීම
+    # Sidebar Info
     st.sidebar.markdown(f'<p class="yellow-text">Page Views: {st.session_state["view_count"]}</p>', unsafe_allow_html=True)
+    
+    # Ad Section (ඔබට අවශ්‍ය විට AD_IMAGE_URL සහ AD_LINK වෙනස් කරන්න)
+    st.sidebar.markdown("---")
+    AD_IMAGE_URL = "https://via.placeholder.com/300x250.png?text=Your+Ad+Here"
+    AD_LINK = "https://isurusoft.streamlit.app/"
+    st.sidebar.markdown(f'''
+        <div class="ad-box">
+            <a href="{AD_LINK}" target="_blank">
+                <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:5px;">
+            </a>
+            <p style="color:#facc15; font-size:12px; margin-top:5px;">අනුග්‍රාහක දැන්වීම්</p>
+        </div>
+    ''', unsafe_allow_html=True)
+    
+    st.sidebar.markdown("---")
     if st.sidebar.button("Logout"):
         st.session_state['is_logged_in'] = False
         st.rerun()
     
     st.markdown('<p class="yellow-text">ඔබට අවශ්‍ය ක්‍රීඩාව හෝ සේවාව තෝරාගන්න:</p>', unsafe_allow_html=True)
     st.markdown("---")
-
-    # බොත්තම් 23 පේළියට 3 බැගින් ප්‍රදර්ශනය කිරීම
+    
     cols_per_row = 3
     for i in range(0, len(LINKS_DATA), cols_per_row):
         cols = st.columns(cols_per_row)
@@ -118,8 +116,7 @@ else:
             index = i + j
             if index < len(LINKS_DATA):
                 item = LINKS_DATA[index]
-                with cols[j]:
-                    st.link_button(f"{item['icon']} {item['name']}", item['url'])
+                with cols[j]: st.link_button(f"{item['icon']} {item['name']}", item['url'])
 
     st.markdown("---")
     st.caption("© 2025 IsuruSoft Web Solutions")
