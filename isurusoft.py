@@ -46,8 +46,8 @@ st.markdown("""
         text-align: center; color: #38bdf8; font-size: 40px; font-weight: bold;
         text-shadow: 2px 2px 4px #000; margin-bottom: 10px;
     }
-    .yellow-label {
-        color: #facc15; font-weight: bold; font-size: 18px; margin-bottom: -15px;
+    .yellow-text {
+        color: #facc15; font-weight: bold; font-size: 18px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -59,14 +59,14 @@ if not st.session_state['is_logged_in']:
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         # Username ලේබලය කහ පැහැයෙන්
-        st.markdown('<p class="yellow-label">පරිශීලක නම (Username)</p>', unsafe_allow_html=True)
-        user_input = st.text_input("", key="user_in")
+        st.markdown('<p class="yellow-text">පරිශීලක නම (Username)</p>', unsafe_allow_html=True)
+        user_input = st.text_input("", key="user_in", label_visibility="collapsed")
         
         # Password ලේබලය කහ පැහැයෙන්
-        st.markdown('<p class="yellow-label">මුරපදය (Password)</p>', unsafe_allow_html=True)
-        pass_input = st.text_input("", type="password", key="pass_in")
+        st.markdown('<p class="yellow-text">මුරපදය (Password)</p>', unsafe_allow_html=True)
+        pass_input = st.text_input("", type="password", key="pass_in", label_visibility="collapsed")
         
-        st.write("") # ඉඩක් තැබීමට
+        st.write("") 
         if st.button("ඇතුළු වන්න (Login)"):
             if user_input == "isurusoft" and pass_input == "123456":
                 st.session_state['is_logged_in'] = True
@@ -79,18 +79,9 @@ else:
     st.markdown('<p class="main-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</p>', unsafe_allow_html=True)
     st.sidebar.button("Logout", on_click=lambda: st.session_state.update({"is_logged_in": False}))
     
-    st.write("ඔබට අවශ්‍ය ක්‍රීඩාව හෝ සේවාව තෝරාගන්න:")
+    # "ඔබට අවශ්‍ය ක්‍රීඩාව හෝ සේවාව තෝරාගන්න:" යන වැකිය කහ පැහැ ගැන්වීම
+    st.markdown('<p class="yellow-text">ඔබට අවශ්‍ය ක්‍රීඩාව හෝ සේවාව තෝරාගන්න:</p>', unsafe_allow_html=True)
     st.markdown("---")
 
     cols_per_row = 3
-    for i in range(0, len(LINKS_DATA), cols_per_row):
-        cols = st.columns(cols_per_row)
-        for j in range(cols_per_row):
-            index = i + j
-            if index < len(LINKS_DATA):
-                item = LINKS_DATA[index]
-                with cols[j]:
-                    st.link_button(f"{item['icon']} {item['name']}", item['url'])
-
-    st.markdown("---")
-    st.caption("© 2025 IsuruSoft Web Solutions")
+    for i in
