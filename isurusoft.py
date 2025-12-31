@@ -54,7 +54,9 @@ st.markdown("""
     .ad-card {
         background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
         border: 2px solid #facc15; border-radius: 12px; padding: 15px; text-align: center;
+        transition: 0.3s;
     }
+    .ad-card:hover { border-color: #38bdf8; transform: scale(1.02); }
     .stButton>button { 
         width: 100%; border-radius: 10px; background: #1e293b; color: #38bdf8;
         border: 1px solid #334155; font-weight: bold; height: 3.5em;
@@ -62,7 +64,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- LOGIN (දැන්වීම් පෙන්වන්නේ නැත) ---
+# --- LOGIN ---
 if not st.session_state['is_logged_in']:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 1.5, 1])
@@ -77,7 +79,7 @@ if not st.session_state['is_logged_in']:
                 st.rerun()
             else: st.error("ඇතුළත් කළ තොරතුරු වැරදියි!")
 
-# --- MAIN DASHBOARD (දැන්වීම් පෙන්වන්නේ මෙහි පමණි) ---
+# --- MAIN DASHBOARD ---
 else:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     
@@ -88,17 +90,17 @@ else:
     # AD SECTION IN SIDEBAR
     st.sidebar.markdown('<p style="color:white; font-size:12px; font-weight:bold;">අනුග්‍රාහක දැන්වීම්</p>', unsafe_allow_html=True)
     
-    # GitHub එකට upload කළ ad1.jpg පින්තූරය පෙන්වීමට
     AD_IMAGE_URL = "https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/ad1.jpg"
+    ARIYADASA_URL = "https://web.facebook.com/ariyadasabookshop/?_rdc=1&_rdr#"
     
     st.sidebar.markdown(f"""
-        <div class="ad-card">
-            <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:8px; margin-bottom:10px;" alt="Ad Image">
-            <p style="color:#cbd5e1; font-size:13px;">G.H. Ariyadasa Book Shop - Galle</p>
-            <a href="https://wa.me/94770000000" target="_blank" style="text-decoration:none;">
-                <div style="background:#facc15; color:black; padding:8px; border-radius:5px; font-weight:bold; font-size:14px;">Contact via WhatsApp</div>
-            </a>
-        </div>
+        <a href="{ARIYADASA_URL}" target="_blank" style="text-decoration:none;">
+            <div class="ad-card">
+                <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:8px; margin-bottom:10px;" alt="Ad Image">
+                <p style="color:#facc15; font-size:14px; font-weight:bold; margin:0;">G.H. Ariyadasa Book Shop</p>
+                <p style="color:#cbd5e1; font-size:12px;">වෙබ් අඩවියට පිවිසීමට ක්ලික් කරන්න</p>
+            </div>
+        </a>
     """, unsafe_allow_html=True)
     
     st.sidebar.markdown("---")
@@ -106,7 +108,7 @@ else:
         st.session_state['is_logged_in'] = False
         st.rerun()
 
-    # Main Grid (Links)
+    # Main Grid
     st.markdown('<p class="yellow-text">අවශ්‍ය ක්‍රීඩාව හෝ සේවාව තෝරාගන්න:</p>', unsafe_allow_html=True)
     
     cols = st.columns(3)
