@@ -33,36 +33,51 @@ LINKS_DATA = [
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling ---
+# --- CSS Styling (වර්ණ සහ හැඩතල) ---
 st.markdown("""
 <style>
+    /* පසුබිම */
     .stApp { background-color: #0f172a; }
+
+    /* ප්‍රධාන මාතෘකාව අනිවාර්යයෙන්ම රතු කිරීම */
+    .red-title {
+        text-align: center; 
+        color: #FF0000 !important; 
+        font-size: 42px !important; 
+        font-weight: bold !important;
+        text-shadow: 2px 2px 4px #000;
+        margin-bottom: 25px;
+        display: block;
+    }
+
+    /* කහ පැහැති අකුරු */
+    .yellow-text {
+        color: #facc15 !important; 
+        font-weight: bold; 
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    /* බොත්තම් සැකසුම් */
     .stButton>button { 
         width: 100%; border-radius: 12px; 
         background: linear-gradient(135deg, #1e293b 0%, #334155 100%); 
         color: #38bdf8; font-weight: bold; border: 1px solid #334155; height: 4em;
-    }
-    .main-title {
-        text-align: center; color: #ff0000; font-size: 40px; font-weight: bold;
-        text-shadow: 2px 2px 4px #000; margin-bottom: 20px;
-    }
-    .yellow-text {
-        color: #facc15; font-weight: bold; font-size: 1.2rem; margin-top: 10px;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # --- LOGIN SECTION ---
 if not st.session_state['is_logged_in']:
-    st.markdown('<h1 class="main-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</h1>', unsafe_allow_html=True)
+    st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown('<p class="yellow-text">පරිශීලක නම (Username)</p>', unsafe_allow_html=True)
-        user_input = st.text_input("", key="user_login_final", label_visibility="collapsed")
+        user_input = st.text_input("", key="u_login", label_visibility="collapsed")
         
         st.markdown('<p class="yellow-text">මුරපදය (Password)</p>', unsafe_allow_html=True)
-        pass_input = st.text_input("", type="password", key="pass_login_final", label_visibility="collapsed")
+        pass_input = st.text_input("", type="password", key="p_login", label_visibility="collapsed")
         
         st.write("") 
         if st.button("ඇතුළු වන්න (Login)"):
@@ -74,9 +89,9 @@ if not st.session_state['is_logged_in']:
 
 # --- DASHBOARD SECTION ---
 else:
-    st.markdown('<h1 class="main-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</h1>', unsafe_allow_html=True)
+    st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     
-    if st.sidebar.button("Logout"):
+    if st.sidebar.button("පද්ධතියෙන් ඉවත් වන්න (Logout)"):
         st.session_state['is_logged_in'] = False
         st.rerun()
     
