@@ -69,16 +69,13 @@ st.markdown("""
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">ISURUSOFT PORTAL</h1>', unsafe_allow_html=True)
     
-    # පේළියක් (Row) නිර්මාණය කර තීරු (Columns) දෙකකට බෙදීම
     col_img, col_form = st.columns([1.2, 1], gap="large")
     
     with col_img:
-        # වම් පැත්තේ පින්තූරය (2.jpg)
         LOGIN_IMAGE_URL = "https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.jpg"
         st.image(LOGIN_IMAGE_URL, use_container_width=True)
         
     with col_form:
-        # දකුණු පැත්තේ Login Form එක
         st.markdown('<div class="login-container">', unsafe_allow_html=True)
         st.markdown('<p style="color:#facc15; font-size:18px; font-weight:bold;">Welcome Back!</p>', unsafe_allow_html=True)
         u = st.text_input("User Name", key="user_input", placeholder="Enter username")
@@ -115,6 +112,30 @@ else:
 
     st.sidebar.markdown("---")
     
-    # Ad Section
+    # Ad Section (නිවැරදි කරන ලද කොටස)
     AD_IMAGE_URL = "https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/ad1.jpg"
-    ARIYADASA_
+    ARIYADASA_URL = "https://web.facebook.com/ariyadasabookshop/?_rdc=1&_rdr#"
+    
+    st.sidebar.markdown(f"""
+        <a href="{ARIYADASA_URL}" target="_blank" style="text-decoration:none;">
+            <div class="ad-card">
+                <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:8px;">
+                <p style="color:#facc15; margin-top:10px;">G.H. Ariyadasa Book Shop</p>
+            </div>
+        </a>
+    """, unsafe_allow_html=True)
+    
+    st.sidebar.markdown("---")
+    if st.sidebar.button("LOGOUT", use_container_width=True):
+        st.session_state['is_logged_in'] = False
+        st.rerun()
+
+    for cat_name, links in CATEGORIES.items():
+        st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
+        cols = st.columns(3)
+        for idx, item in enumerate(links):
+            with cols[idx % 3]:
+                st.link_button(f"{item['icon']} {item['name']}", item['url'], use_container_width=True)
+
+    st.markdown("---")
+    st.caption("© 2025 IsuruSoft Web Solutions")
