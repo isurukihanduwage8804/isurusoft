@@ -18,7 +18,7 @@ if 'is_logged_in' not in st.session_state:
 if 'user_comments' not in st.session_state:
     st.session_state['user_comments'] = []
 
-# --- ලින්ක් දත්ත ---
+# --- ලින්ක් දත්ත (අලුත් Game එක ඇතුළත් කර ඇත) ---
 CATEGORIES = {
     "🔢 ගණිතය සහ විද්‍යාව (Maths & Science)": [
         {"name": "Geometry Dance", "url": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "icon": "📐"},
@@ -39,6 +39,7 @@ CATEGORIES = {
         {"name": "BMI Manager", "url": "https://bmimannew.streamlit.app/#8b1d9de1", "icon": "⚖️"}
     ],
     "🎮 ප්‍රහේලිකා සහ ක්‍රීඩා (Puzzles & Games)": [
+        {"name": "සංඛ්‍යා ගැටුම (Math Combat)", "url": "https://sankaya-gatuma.streamlit.app/", "icon": "⚔️"},
         {"name": "3D App Best", "url": "https://3dappbest.streamlit.app/", "icon": "🧊"},
         {"name": "Sankya Dadayama", "url": "https://sankyadadayamanew2.streamlit.app/", "icon": "🎯"},
         {"name": "Maths Puzzle", "url": "https://mathspuzzle1.streamlit.app/", "icon": "🧩"},
@@ -59,8 +60,9 @@ st.markdown("""
     .main-title { text-align: center; color: #ff4b4b; font-size: 45px; font-weight: 800; margin-bottom: 20px; }
     .sub-title { text-align: center; color: #cbd5e1; font-size: 18px; margin-bottom: 40px; }
     .category-header { background-color: #1e293b; padding: 10px 20px; border-radius: 8px; color: #facc15; font-size: 20px; font-weight: bold; margin-top: 30px; border-left: 5px solid #ff4b4b; }
-    .ad-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 10px; text-align: center; }
-    .comment-card { background: #1e293b; padding: 10px; border-radius: 8px; margin-bottom: 5px; border-left: 3px solid #facc15; color: #cbd5e1; }
+    .ad-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 10px; text-align: center; transition: 0.3s; }
+    .ad-card:hover { border-color: #ff4b4b; transform: scale(1.02); }
+    .comment-card { background: #1e293b; padding: 10px; border-radius: 8px; margin-bottom: 5px; border-left: 3px solid #facc15; color: #cbd5e1; font-size: 14px; }
     .login-container { background: #1e293b; padding: 30px; border-radius: 15px; border: 1px solid #334155; }
 </style>
 """, unsafe_allow_html=True)
@@ -112,7 +114,7 @@ else:
 
     st.sidebar.markdown("---")
     
-    # Ad Section (නිවැරදි කරන ලද කොටස)
+    # Ad Section
     AD_IMAGE_URL = "https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/ad1.jpg"
     ARIYADASA_URL = "https://web.facebook.com/ariyadasabookshop/?_rdc=1&_rdr#"
     
@@ -120,7 +122,8 @@ else:
         <a href="{ARIYADASA_URL}" target="_blank" style="text-decoration:none;">
             <div class="ad-card">
                 <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:8px;">
-                <p style="color:#facc15; margin-top:10px;">G.H. Ariyadasa Book Shop</p>
+                <p style="color:#facc15; margin-top:10px; font-weight:bold;">G.H. Ariyadasa Book Shop</p>
+                <p style="color:#cbd5e1; font-size:12px;">සියලුම අධ්‍යාපනික අවශ්‍යතා සඳහා</p>
             </div>
         </a>
     """, unsafe_allow_html=True)
@@ -130,6 +133,7 @@ else:
         st.session_state['is_logged_in'] = False
         st.rerun()
 
+    # ලින්ක් පෙන්වන කොටස
     for cat_name, links in CATEGORIES.items():
         st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
         cols = st.columns(3)
@@ -138,4 +142,4 @@ else:
                 st.link_button(f"{item['icon']} {item['name']}", item['url'], use_container_width=True)
 
     st.markdown("---")
-    st.caption("© 2025 IsuruSoft Web Solutions")
+    st.caption("© 2025 IsuruSoft Web Solutions | Designed for Professional Education")
