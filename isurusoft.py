@@ -1,16 +1,14 @@
 import streamlit as st
-import random # අහඹු ලෙස පේජ් විව්ස් වැඩි කිරීමට
+import random
 
 # 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව", page_icon="📖", layout="wide")
 
-# --- Page View Counter (එක් අයෙකුට 100ත් 150ත් අතර අහඹු ගණනක්) ---
+# --- Page View Counter (100-150 අතර අහඹු ලෙස වැඩිවේ) ---
 if 'view_count' not in st.session_state:
-    # ආරම්භක පිරිස (මෙම අගය ඕනෑම වෙලාවක ඔබට වෙනස් කළ හැක)
-    st.session_state['view_count'] = 1500 
+    st.session_state['view_count'] = 1500 # ආරම්භක අගය
 
 if 'counted' not in st.session_state:
-    # එක් පිවිසුමකදී 100ත් 150ත් අතර අහඹු අගයක් එකතු වේ
     st.session_state['view_count'] += random.randint(100, 150)
     st.session_state['counted'] = True
 
@@ -44,94 +42,81 @@ LINKS_DATA = [
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (තද රතු මාතෘකාව සහ කහ අකුරු) ---
+# --- CSS Styling ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
-    
-    /* රතු පැහැති මාතෘකාව */
     .red-title {
-        text-align: center; color: #FF0000 !important; font-size: 40px !important; 
+        text-align: center; color: #FF0000 !important; font-size: 38px !important; 
         font-weight: bold !important; text-shadow: 2px 2px 4px #000; margin-bottom: 25px;
     }
-
-    /* කහ පැහැති අකුරු */
-    .yellow-text {
-        color: #facc15 !important; font-weight: bold; font-size: 1.1rem; margin-bottom: 8px;
+    .yellow-text { color: #facc15 !important; font-weight: bold; }
+    
+    /* Animated Ad Card */
+    .ad-card {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        border: 2px solid #facc15; border-radius: 12px; padding: 15px;
+        text-align: center; margin-bottom: 20px;
     }
-
-    /* දැන්වීම් කොටුව */
-    .ad-box {
-        border: 2px solid #facc15; border-radius: 10px; padding: 10px; text-align: center; background-color: #1e293b;
-    }
-
-    /* බොත්තම් (Buttons) */
+    
     .stButton>button { 
-        width: 100%; border-radius: 12px; 
-        background: linear-gradient(135deg, #1e293b 0%, #334155 100%); 
-        color: #38bdf8; font-weight: bold; border: 1px solid #334155; height: 4em;
+        width: 100%; border-radius: 10px; background: #1e293b; color: #38bdf8;
+        border: 1px solid #334155; font-weight: bold; height: 3.5em;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# --- LOGIN SECTION ---
+# --- LOGIN (මෙහි දැන්වීම් පෙන්වන්නේ නැත) ---
 if not st.session_state['is_logged_in']:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1, 2, 1])
+    col1, col2, col3 = st.columns([1, 1.5, 1])
     with col2:
-        st.markdown('<p class="yellow-text">පරිශීලක නම (Username)</p>', unsafe_allow_html=True)
-        user_input = st.text_input("", key="user_in", label_visibility="collapsed")
-        st.markdown('<p class="yellow-text">මුරපදය (Password)</p>', unsafe_allow_html=True)
-        pass_input = st.text_input("", type="password", key="pass_in", label_visibility="collapsed")
-        
-        if st.button("ඇතුළු වන්න (Login)"):
-            if user_input == "isurusoft" and pass_input == "123456":
+        st.markdown('<p class="yellow-text">User Name</p>', unsafe_allow_html=True)
+        u = st.text_input("", key="login_u", label_visibility="collapsed")
+        st.markdown('<p class="yellow-text">Password</p>', unsafe_allow_html=True)
+        p = st.text_input("", type="password", key="login_p", label_visibility="collapsed")
+        if st.button("LOGIN"):
+            if u == "isurusoft" and p == "123456":
                 st.session_state['is_logged_in'] = True
                 st.rerun()
-            else:
-                st.error("පරිශීලක නම හෝ මුරපදය වැරදියි!")
+            else: st.error("Invalid Details")
 
-# --- DASHBOARD SECTION (ලොග් වූ පසු) ---
+# --- MAIN DASHBOARD (දැන්වීම් පෙන්වන්නේ මෙහි පමණි) ---
 else:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     
-    # --- Sidebar (Views & Ads) ---
-    st.sidebar.markdown(f'<p class="yellow-text">Page Views: {st.session_state["view_count"]}</p>', unsafe_allow_html=True)
+    # Sidebar
+    st.sidebar.markdown(f'<h3 style="color:#facc15;">Views: {st.session_state["view_count"]}</h3>', unsafe_allow_html=True)
     st.sidebar.markdown("---")
     
-    # දැන්වීම් කොටස (මෙහි ඇති ලින්ක් ඔබට වෙනස් කළ හැක)
-    st.sidebar.markdown('<p style="color:white; font-weight:bold;">අනුග්‍රාහක දැන්වීම්</p>', unsafe_allow_html=True)
+    # AD SECTION IN SIDEBAR
+    st.sidebar.markdown('<p style="color:white; font-size:12px; font-weight:bold;">අනුග්‍රාහක දැන්වීම්</p>', unsafe_allow_html=True)
     
-    AD_IMAGE_URL = "https://via.placeholder.com/300x250.png?text=ඔබේ+දැන්වීම+මෙහි"
-    AD_LINK = "https://isurusoft.streamlit.app/" 
+    # ඔබට ලැබුණු දැන්වීමේ පින්තූරය ඇත්නම් පහත URL එක වෙනස් කරන්න
+    AD_IMAGE = "https://via.placeholder.com/300x200.png?text=ඔබේ+දැන්වීම+මෙහි"
     
-    st.sidebar.markdown(f'''
-        <div class="ad-box">
-            <a href="{AD_LINK}" target="_blank">
-                <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:5px;">
+    st.sidebar.markdown(f"""
+        <div class="ad-card">
+            <img src="{AD_IMAGE}" style="width:100%; border-radius:8px; margin-bottom:10px;">
+            <p style="color:#cbd5e1; font-size:13px;">ඔබේ ව්‍යාපාරය දහස් ගණනක් වෙත ගෙන යන්න.</p>
+            <a href="https://wa.me/94XXXXXXXXX" target="_blank" style="text-decoration:none;">
+                <div style="background:#facc15; color:black; padding:8px; border-radius:5px; font-weight:bold; font-size:14px;">දැන්වීම් පළ කිරීමට</div>
             </a>
-            <p style="color:#facc15; font-size:12px; margin-top:5px;">විස්තර සඳහා ක්ලික් කරන්න</p>
         </div>
-    ''', unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
     
     st.sidebar.markdown("---")
     if st.sidebar.button("Logout"):
         st.session_state['is_logged_in'] = False
         st.rerun()
+
+    # Main Grid (Links)
+    st.markdown('<p class="yellow-text">Explore Our Educational Tools & Games:</p>', unsafe_allow_html=True)
     
-    # ප්‍රධාන ලින්ක් ටික ප්‍රදර්ශනය කිරීම
-    st.markdown('<p class="yellow-text">ඔබට අවශ්‍ය ක්‍රීඩාව හෝ සේවාව තෝරාගන්න:</p>', unsafe_allow_html=True)
-    st.markdown("---")
-    
-    cols_per_row = 3
-    for i in range(0, len(LINKS_DATA), cols_per_row):
-        cols = st.columns(cols_per_row)
-        for j in range(cols_per_row):
-            index = i + j
-            if index < len(LINKS_DATA):
-                item = LINKS_DATA[index]
-                with cols[j]:
-                    st.link_button(f"{item['icon']} {item['name']}", item['url'])
+    cols = st.columns(3)
+    for idx, item in enumerate(LINKS_DATA):
+        with cols[idx % 3]:
+            st.link_button(f"{item['icon']} {item['name']}", item['url'], use_container_width=True)
 
     st.markdown("---")
-    st.caption("© 2025 IsuruSoft Web Solutions")
+    st.caption("© 2025 IsuruSoft Web Solutions | Specialized Marketing Portal")
