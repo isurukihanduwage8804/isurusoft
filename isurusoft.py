@@ -12,9 +12,10 @@ if 'counted' not in st.session_state:
     st.session_state['view_count'] += random.randint(15, 60)
     st.session_state['counted'] = True
 
-# --- ලින්ක් දත්ත (වර්ගීකරණය සහිතව) ---
+# --- ලින්ක් දත්ත (අලුත් ඇප් එක ඇතුළුව) ---
 CATEGORIES = {
     "🔢 ගණිතය සහ විද්‍යාව (Maths & Science)": [
+        {"name": "Geometry Dance", "url": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "icon": "📐"},
         {"name": "Graph Art 2", "url": "https://nicegrap2.streamlit.app/", "icon": "🎨"},
         {"name": "Periodic Table", "url": "https://prtable.streamlit.app/", "icon": "🧪"},
         {"name": "Angle Shape", "url": "https://angaleshape.streamlit.app/", "icon": "📐"},
@@ -48,7 +49,7 @@ CATEGORIES = {
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (Professional Look) ---
+# --- CSS Styling ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
@@ -108,19 +109,3 @@ else:
             </div>
         </a>
     """, unsafe_allow_html=True)
-    
-    st.sidebar.markdown("---")
-    if st.sidebar.button("LOGOUT"):
-        st.session_state['is_logged_in'] = False
-        st.rerun()
-
-    # Layout with Categories
-    for cat_name, links in CATEGORIES.items():
-        st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
-        cols = st.columns(3)
-        for idx, item in enumerate(links):
-            with cols[idx % 3]:
-                st.link_button(f"{item['icon']} {item['name']}", item['url'], use_container_width=True)
-
-    st.markdown("---")
-    st.caption("© 2025 IsuruSoft Web Solutions | Designed for Excellence")
