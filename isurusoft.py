@@ -2,10 +2,10 @@ import streamlit as st
 import random
 import string
 
-# 1. පිටුවේ මූලික සැකසුම් (Page Config)
+# 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="IsuruSoft Web Dictionary", page_icon="📖", layout="wide")
 
-# 2. ඔබ එවූ නිවැරදි ලින්ක් 23 කේතයට ඇතුළත් කිරීම
+# [cite_start]2. ඔබ එවූ ලින්ක් 23 ම මෙහි අඩංගු වේ [cite: 1]
 LINKS_DATA = [
     "https://nicegrap2.streamlit.app/",
     "https://isurusoft.streamlit.app/",
@@ -32,15 +32,13 @@ LINKS_DATA = [
     "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/"
 ]
 
-# 3. Session State හරහා දත්ත පවත්වා ගැනීම
+# Session State පවත්වා ගැනීම
 if 'users' not in st.session_state:
     st.session_state['users'] = {}
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
-if 'current_user' not in st.session_state:
-    st.session_state['current_user'] = ""
 
-# 4. CSS Styling (ලස්සන පෙනුම සඳහා)
+# 3. CSS Styling (Error එක නිවැරදි කර ඇත)
 st.markdown("""
     <style>
     .stApp { background-color: #0f172a; }
@@ -60,3 +58,51 @@ st.markdown("""
         border: 1px solid #334155;
         margin-top: 10px;
     }
+    </style>
+    """, unsafe_allow_html=True)
+
+# 4. Login & Registration Logic
+if not st.session_state['is_logged_in']:
+    st.markdown("<h1 style='text-align: center; color: #38bdf8;'>IsuruSoft Web Dictionary</h1>", unsafe_allow_html=True)
+    tab1, tab2 = st.tabs(["📝 Register", "🔑 Login"])
+
+    with tab1:
+        reg_name = st.text_input("ඔබේ නම ඇතුළත් කරන්න")
+        if st.button("ගිණුමක් සාදන්න"):
+            if reg_name:
+                email = f"{reg_name.lower().replace(' ', '')}{random.randint(100, 999)}@isurusoft.lk"
+                password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
+                st.session_state['users'][email] = password
+                st.success("සාර්ථකයි!")
+                st.code(f"Email: {email}\nPassword: {password}")
+
+    with tab2:
+        u_email = st.text_input("Email")
+        u_pass = st.text_input("Password", type="password")
+        if st.button("Login"):
+            if u_email in st.session_state['users'] and st.session_state['users'][u_email] == u_pass:
+                st.session_state['is_logged_in'] = True
+                st.rerun()
+            else:
+                st.error("විස්තර වැරදියි!")
+
+# 5. Dashboard (පරිශීලකයා ලොග් වූ පසු)
+else:
+    st.markdown("<h1 style='text-align: center; color: #4ade80;'>IsuruSoft Dashboard</h1>", unsafe_allow_html=True)
+    if st.sidebar.button("Logout"):
+        st.session_state['is_logged_in'] = False
+        st.rerun()
+    
+    st.write("පහත සේවාවන් වෙත පිවිසීමට අදාළ බොත්තම ඔබන්න:")
+    st.markdown("---")
+
+    # බොත්තම් 23 ම පෙන්වීම
+    cols_per_row = 3
+    for i in range(0, len(LINKS_DATA), cols_per_row):
+        cols = st.columns(cols_per_row)
+        for j in range(cols_per_row):
+            index = i + j
+            if index < len(LINKS_DATA):
+                with cols[j]:
+                    st.markdown(f'<div class="link-card"><b>Service {index + 1}</b></div>', unsafe_allow_html=True)
+                    st.link_button(f"🌐 Open Page {index + 1}", LINKS_DATA[index])
