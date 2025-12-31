@@ -4,7 +4,7 @@ import random
 # 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="IsuruSoft Educational Portal", page_icon="🎓", layout="wide")
 
-# --- Page View Counter Setup ---
+# --- Session State Initializations ---
 if 'view_count' not in st.session_state:
     st.session_state['view_count'] = 50240 
 
@@ -14,6 +14,10 @@ if 'counted' not in st.session_state:
 
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
+
+# Comment Box එක සඳහා මතකය සකස් කිරීම
+if 'user_comments' not in st.session_state:
+    st.session_state['user_comments'] = []
 
 # --- ලින්ක් දත්ත ---
 CATEGORIES = {
@@ -57,6 +61,7 @@ st.markdown("""
     .sub-title { text-align: center; color: #cbd5e1; font-size: 18px; margin-bottom: 40px; }
     .category-header { background-color: #1e293b; padding: 10px 20px; border-radius: 8px; color: #facc15; font-size: 20px; font-weight: bold; margin-top: 30px; border-left: 5px solid #ff4b4b; }
     .ad-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 10px; text-align: center; }
+    .comment-card { background: #1e293b; padding: 10px; border-radius: 8px; margin-bottom: 5px; border-left: 3px solid #facc15; color: #cbd5e1; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -75,12 +80,29 @@ if not st.session_state['is_logged_in']:
             else:
                 st.error("වැරදි තොරතුරු ඇතුළත් කළා!")
 else:
-    # LOGIN වූ පසු පෙන්වන කොටස
+    # MAIN CONTENT
     st.markdown('<h1 class="main-title">ISURUSOFT EDUCATIONAL HUB</h1>', unsafe_allow_html=True)
     st.markdown('<p class="sub-title">අනාගත පරපුර වෙනුවෙන් තැනූ නවීන අධ්‍යාපනික මෙවලම් කට්ටලය</p>', unsafe_allow_html=True)
     
-    # Sidebar Setup
+    # Sidebar
     st.sidebar.markdown(f'<h2 style="color:#facc15; text-align:center;">VIEWS: {st.session_state["view_count"]:,}</h2>', unsafe_allow_html=True)
+    st.sidebar.markdown("---")
+    
+    # Sidebar Comment Box
+    st.sidebar.markdown("<h3 style='color:#facc15;'>ඔබේ අදහස කියන්න</h3>", unsafe_allow_html=True)
+    new_comment = st.sidebar.text_area("අදහස් මෙතැන ලියන්න...", key="comment_area")
+    if st.sidebar.button("ඇතුළත් කරන්න", use_container_width=True):
+        if new_comment:
+            st.session_state.user_comments.append(new_comment)
+            st.sidebar.success("අදහස ඇතුළත් කළා!")
+    
+    # පෙන්වන අදහස් (Comments Display)
+    if st.session_state.user_comments:
+        st.sidebar.markdown("---")
+        st.sidebar.caption("පසුගිය අදහස්:")
+        for comment in reversed(st.session_state.user_comments[-5:]): # අවසන් අදහස් 5 පමණක් පෙන්වයි
+            st.sidebar.markdown(f'<div class="comment-card">{comment}</div>', unsafe_allow_html=True)
+
     st.sidebar.markdown("---")
     
     # Ad Section
