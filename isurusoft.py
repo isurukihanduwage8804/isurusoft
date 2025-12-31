@@ -4,7 +4,7 @@ import random
 # 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="IsuruSoft Educational Portal", page_icon="🎓", layout="wide")
 
-# --- Page View Counter ---
+# --- Page View Counter Setup ---
 if 'view_count' not in st.session_state:
     st.session_state['view_count'] = 50240 
 
@@ -12,7 +12,10 @@ if 'counted' not in st.session_state:
     st.session_state['view_count'] += random.randint(15, 60)
     st.session_state['counted'] = True
 
-# --- ලින්ක් දත්ත (අලුත් ඇප් එක ඇතුළුව) ---
+if 'is_logged_in' not in st.session_state:
+    st.session_state['is_logged_in'] = False
+
+# --- ලින්ක් දත්ත ---
 CATEGORIES = {
     "🔢 ගණිතය සහ විද්‍යාව (Maths & Science)": [
         {"name": "Geometry Dance", "url": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "icon": "📐"},
@@ -46,66 +49,64 @@ CATEGORIES = {
     ]
 }
 
-if 'is_logged_in' not in st.session_state:
-    st.session_state['is_logged_in'] = False
-
 # --- CSS Styling ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
-    .main-title {
-        text-align: center; color: #ff4b4b; font-size: 45px; font-weight: 800;
-        margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;
-    }
-    .sub-title {
-        text-align: center; color: #cbd5e1; font-size: 18px; margin-bottom: 40px;
-    }
-    .category-header {
-        background-color: #1e293b; padding: 10px 20px; border-radius: 8px;
-        color: #facc15; font-size: 20px; font-weight: bold; margin-top: 30px;
-        border-left: 5px solid #ff4b4b;
-    }
-    .ad-card {
-        background: #1e293b; border: 1px solid #334155; border-radius: 12px;
-        padding: 10px; transition: 0.3s;
-    }
-    .ad-card:hover { border-color: #ff4b4b; }
+    .main-title { text-align: center; color: #ff4b4b; font-size: 45px; font-weight: 800; margin-bottom: 10px; }
+    .sub-title { text-align: center; color: #cbd5e1; font-size: 18px; margin-bottom: 40px; }
+    .category-header { background-color: #1e293b; padding: 10px 20px; border-radius: 8px; color: #facc15; font-size: 20px; font-weight: bold; margin-top: 30px; border-left: 5px solid #ff4b4b; }
+    .ad-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 10px; text-align: center; }
 </style>
 """, unsafe_allow_html=True)
 
-# --- LOGIN ---
+# --- APP FLOW ---
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">ISURUSOFT PORTAL</h1>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 1.2, 1])
     with col2:
         st.markdown('<p style="color:#facc15; text-align:center;">කරුණාකර ඉදිරියට යාමට ඇතුළු වන්න</p>', unsafe_allow_html=True)
-        u = st.text_input("User Name", placeholder="username")
-        p = st.text_input("Password", type="password", placeholder="password")
+        u = st.text_input("User Name", key="user_input")
+        p = st.text_input("Password", type="password", key="pass_input")
         if st.button("LOGIN", use_container_width=True):
             if u == "isurusoft" and p == "123456":
                 st.session_state['is_logged_in'] = True
                 st.rerun()
-            else: st.error("වැරදි තොරතුරු ඇතුළත් කළා!")
-
-# --- MAIN CONTENT ---
+            else:
+                st.error("වැරදි තොරතුරු ඇතුළත් කළා!")
 else:
+    # LOGIN වූ පසු පෙන්වන කොටස
     st.markdown('<h1 class="main-title">ISURUSOFT EDUCATIONAL HUB</h1>', unsafe_allow_html=True)
     st.markdown('<p class="sub-title">අනාගත පරපුර වෙනුවෙන් තැනූ නවීන අධ්‍යාපනික මෙවලම් කට්ටලය</p>', unsafe_allow_html=True)
     
-    # Sidebar
+    # Sidebar Setup
     st.sidebar.markdown(f'<h2 style="color:#facc15; text-align:center;">VIEWS: {st.session_state["view_count"]:,}</h2>', unsafe_allow_html=True)
     st.sidebar.markdown("---")
     
     # Ad Section
-    st.sidebar.caption("Sponsor Ad")
     AD_IMAGE_URL = "https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/ad1.jpg"
     ARIYADASA_URL = "https://web.facebook.com/ariyadasabookshop/?_rdc=1&_rdr#"
-    
     st.sidebar.markdown(f"""
         <a href="{ARIYADASA_URL}" target="_blank" style="text-decoration:none;">
             <div class="ad-card">
                 <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:8px;">
-                <p style="color:#facc15; font-size:14px; font-weight:bold; margin-top:10px; text-align:center;">G.H. Ariyadasa Book Shop</p>
+                <p style="color:#facc15; margin-top:10px;">G.H. Ariyadasa Book Shop</p>
             </div>
         </a>
     """, unsafe_allow_html=True)
+    
+    st.sidebar.markdown("---")
+    if st.sidebar.button("LOGOUT", use_container_width=True):
+        st.session_state['is_logged_in'] = False
+        st.rerun()
+
+    # ලින්ක් ටයිල්ස් පෙන්වීම
+    for cat_name, links in CATEGORIES.items():
+        st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
+        cols = st.columns(3)
+        for idx, item in enumerate(links):
+            with cols[idx % 3]:
+                st.link_button(f"{item['icon']} {item['name']}", item['url'], use_container_width=True)
+
+    st.markdown("---")
+    st.caption("© 2025 IsuruSoft Web Solutions")
