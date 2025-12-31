@@ -15,7 +15,6 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# Comment Box එක සඳහා මතකය සකස් කිරීම
 if 'user_comments' not in st.session_state:
     st.session_state['user_comments'] = []
 
@@ -62,12 +61,18 @@ st.markdown("""
     .category-header { background-color: #1e293b; padding: 10px 20px; border-radius: 8px; color: #facc15; font-size: 20px; font-weight: bold; margin-top: 30px; border-left: 5px solid #ff4b4b; }
     .ad-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 10px; text-align: center; }
     .comment-card { background: #1e293b; padding: 10px; border-radius: 8px; margin-bottom: 5px; border-left: 3px solid #facc15; color: #cbd5e1; }
+    .login-image { display: block; margin-left: auto; margin-right: auto; width: 300px; border-radius: 20px; margin-bottom: 20px; }
 </style>
 """, unsafe_allow_html=True)
 
 # --- APP FLOW ---
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">ISURUSOFT PORTAL</h1>', unsafe_allow_html=True)
+    
+    # --- LOGIN IMAGE (2.jpg) ---
+    LOGIN_IMAGE_URL = "https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.jpg"
+    st.markdown(f'<img src="{LOGIN_IMAGE_URL}" class="login-image">', unsafe_allow_html=True)
+    
     col1, col2, col3 = st.columns([1, 1.2, 1])
     with col2:
         st.markdown('<p style="color:#facc15; text-align:center;">කරුණාකර ඉදිරියට යාමට ඇතුළු වන්න</p>', unsafe_allow_html=True)
@@ -80,7 +85,7 @@ if not st.session_state['is_logged_in']:
             else:
                 st.error("වැරදි තොරතුරු ඇතුළත් කළා!")
 else:
-    # MAIN CONTENT
+    # MAIN CONTENT (LoggedIn)
     st.markdown('<h1 class="main-title">ISURUSOFT EDUCATIONAL HUB</h1>', unsafe_allow_html=True)
     st.markdown('<p class="sub-title">අනාගත පරපුර වෙනුවෙන් තැනූ නවීන අධ්‍යාපනික මෙවලම් කට්ටලය</p>', unsafe_allow_html=True)
     
@@ -96,11 +101,9 @@ else:
             st.session_state.user_comments.append(new_comment)
             st.sidebar.success("අදහස ඇතුළත් කළා!")
     
-    # පෙන්වන අදහස් (Comments Display)
     if st.session_state.user_comments:
         st.sidebar.markdown("---")
-        st.sidebar.caption("පසුගිය අදහස්:")
-        for comment in reversed(st.session_state.user_comments[-5:]): # අවසන් අදහස් 5 පමණක් පෙන්වයි
+        for comment in reversed(st.session_state.user_comments[-5:]):
             st.sidebar.markdown(f'<div class="comment-card">{comment}</div>', unsafe_allow_html=True)
 
     st.sidebar.markdown("---")
@@ -122,7 +125,6 @@ else:
         st.session_state['is_logged_in'] = False
         st.rerun()
 
-    # ලින්ක් ටයිල්ස් පෙන්වීම
     for cat_name, links in CATEGORIES.items():
         st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
         cols = st.columns(3)
