@@ -1,11 +1,9 @@
 import streamlit as st
-import random
-import string
 
 # 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="IsuruSoft Web Dictionary", page_icon="📖", layout="wide")
 
-# 2. ඔබ එවූ ලින්ක් 23 සහ ඒවාට අදාළ අයිකන් (Icons)
+# ඔබ ලබාදුන් ලින්ක් 23 සහ ඒවාට අදාළ අයිකන්
 LINKS_DATA = [
     {"name": "Graph Art 2", "url": "https://nicegrap2.streamlit.app/", "icon": "🎨"},
     {"name": "IsuruSoft Portal", "url": "https://isurusoft.streamlit.app/", "icon": "🌐"},
@@ -32,65 +30,46 @@ LINKS_DATA = [
     {"name": "Maths 680", "url": "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/", "icon": "🎓"}
 ]
 
-# Session State පවත්වා ගැනීම
-if 'users' not in st.session_state:
-    st.session_state['users'] = {}
+# Session State එක හරහා Login තත්ත්වය පරීක්ෂා කිරීම
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# 3. CSS Styling
+# --- CSS Styling ---
 st.markdown("""
     <style>
     .stApp { background-color: #0f172a; }
     .stButton>button { 
-        width: 100%; 
-        border-radius: 12px; 
+        width: 100%; border-radius: 12px; 
         background: linear-gradient(135deg, #1e293b 0%, #334155 100%); 
-        color: #38bdf8; 
-        font-weight: bold; 
-        border: 1px solid #334155;
-        height: 4em;
-        transition: 0.3s;
+        color: #38bdf8; font-weight: bold; border: 1px solid #334155; height: 4em;
     }
-    .stButton>button:hover {
-        border: 1px solid #38bdf8;
-        transform: scale(1.02);
-        color: white;
-    }
-    .link-card {
-        padding: 10px;
-        text-align: center;
-        margin-top: 15px;
+    .login-container {
+        max-width: 400px; margin: auto; padding: 40px;
+        background-color: #1e293b; border-radius: 20px; border: 1px solid #38bdf8;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# 4. Login & Registration
+# --- LOGIN SECTION ---
 if not st.session_state['is_logged_in']:
     st.markdown("<h1 style='text-align: center; color: #38bdf8;'>IsuruSoft Web Dictionary</h1>", unsafe_allow_html=True)
-    tab1, tab2 = st.tabs(["📝 ලියාපදිංචිය", "🔑 පිවිසෙන්න"])
-
-    with tab1:
-        reg_name = st.text_input("ඔබේ නම ඇතුළත් කරන්න")
-        if st.button("ගිණුමක් සාදන්න"):
-            if reg_name:
-                email = f"{reg_name.lower().replace(' ', '')}{random.randint(100, 999)}@isurusoft.lk"
-                password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
-                st.session_state['users'][email] = password
-                st.success("ගිණුම නිපදවන ලදී!")
-                st.code(f"Email: {email}\nPassword: {password}")
-
-    with tab2:
-        u_email = st.text_input("Email")
-        u_pass = st.text_input("Password", type="password")
-        if st.button("Log In"):
-            if u_email in st.session_state['users'] and st.session_state['users'][u_email] == u_pass:
+    st.markdown("<p style='text-align: center; color: white;'>කරුණාකර පද්ධතියට ඇතුළු වන්න</p>", unsafe_allow_html=True)
+    
+    # මැදට පෙනෙන සේ සකස් කිරීම
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        user_input = st.text_input("Username")
+        pass_input = st.text_input("Password", type="password")
+        
+        if st.button("Login"):
+            # නියමිත Username සහ Password පරීක්ෂාව
+            if user_input == "isurusoft" and pass_input == "123456":
                 st.session_state['is_logged_in'] = True
                 st.rerun()
             else:
-                st.error("විස්තර වැරදියි!")
+                st.error("Username හෝ Password වැරදියි!")
 
-# 5. Dashboard (ලොග් වූ පසු)
+# --- DASHBOARD SECTION (After Login) ---
 else:
     st.markdown("<h1 style='text-align: center; color: #4ade80;'>IsuruSoft Dashboard</h1>", unsafe_allow_html=True)
     st.sidebar.button("Logout", on_click=lambda: st.session_state.update({"is_logged_in": False}))
@@ -98,7 +77,7 @@ else:
     st.write("ඔබට අවශ්‍ය සේවාව තෝරාගන්න:")
     st.markdown("---")
 
-    # බොත්තම් 23 පේළියට 3 බැගින් අයිකන් සමඟ පෙන්වීම
+    # බොත්තම් 23 පේළියට 3 බැගින් පෙන්වීම
     cols_per_row = 3
     for i in range(0, len(LINKS_DATA), cols_per_row):
         cols = st.columns(cols_per_row)
@@ -107,5 +86,7 @@ else:
             if index < len(LINKS_DATA):
                 item = LINKS_DATA[index]
                 with cols[j]:
-                    # අයිකන් එක සහ නම සහිත බොත්තම
                     st.link_button(f"{item['icon']} {item['name']}", item['url'])
+
+    st.markdown("---")
+    st.caption("© 2025 IsuruSoft Web Solutions")
