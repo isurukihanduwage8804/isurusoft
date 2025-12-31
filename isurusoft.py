@@ -59,10 +59,10 @@ if not st.session_state['is_logged_in']:
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown('<p class="yellow-text">පරිශීලක නම (Username)</p>', unsafe_allow_html=True)
-        user_input = st.text_input("", key="user_login_field", label_visibility="collapsed")
+        user_input = st.text_input("", key="user_login_final", label_visibility="collapsed")
         
         st.markdown('<p class="yellow-text">මුරපදය (Password)</p>', unsafe_allow_html=True)
-        pass_input = st.text_input("", type="password", key="pass_login_field", label_visibility="collapsed")
+        pass_input = st.text_input("", type="password", key="pass_login_final", label_visibility="collapsed")
         
         st.write("") 
         if st.button("ඇතුළු වන්න (Login)"):
