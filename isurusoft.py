@@ -4,12 +4,14 @@ import random
 # 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව", page_icon="📖", layout="wide")
 
-# --- Page View Counter (100-150 අතර අහඹු ලෙස වැඩිවේ) ---
+# --- Page View Counter (50,000 සිට ආරම්භ වේ) ---
 if 'view_count' not in st.session_state:
-    st.session_state['view_count'] = 1500 # ආරම්භක අගය
+    # මෙතැනින් ඔබට ඕනෑම වෙලාවක ආරම්භක අගය වෙනස් කළ හැක
+    st.session_state['view_count'] = 50240 
 
 if 'counted' not in st.session_state:
-    st.session_state['view_count'] += random.randint(100, 150)
+    # පිටුවට පැමිණෙන සෑම විටම 10ත් 50ත් අතර අහඹු අගයක් එකතු වේ
+    st.session_state['view_count'] += random.randint(10, 50)
     st.session_state['counted'] = True
 
 # --- ලින්ක් 23 දත්ත ---
@@ -52,7 +54,6 @@ st.markdown("""
     }
     .yellow-text { color: #facc15 !important; font-weight: bold; }
     
-    /* Animated Ad Card */
     .ad-card {
         background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
         border: 2px solid #facc15; border-radius: 12px; padding: 15px;
@@ -66,7 +67,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- LOGIN (මෙහි දැන්වීම් පෙන්වන්නේ නැත) ---
+# --- LOGIN ---
 if not st.session_state['is_logged_in']:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 1.5, 1])
@@ -79,44 +80,17 @@ if not st.session_state['is_logged_in']:
             if u == "isurusoft" and p == "123456":
                 st.session_state['is_logged_in'] = True
                 st.rerun()
-            else: st.error("Invalid Details")
+            else: st.error("විස්තර වැරදියි!")
 
-# --- MAIN DASHBOARD (දැන්වීම් පෙන්වන්නේ මෙහි පමණි) ---
+# --- MAIN DASHBOARD ---
 else:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     
     # Sidebar
-    st.sidebar.markdown(f'<h3 style="color:#facc15;">Views: {st.session_state["view_count"]}</h3>', unsafe_allow_html=True)
+    st.sidebar.markdown(f'<h3 style="color:#facc15;">Views: {st.session_state["view_count"]:,}</h3>', unsafe_allow_html=True)
     st.sidebar.markdown("---")
     
-    # AD SECTION IN SIDEBAR
+    # AD SECTION
     st.sidebar.markdown('<p style="color:white; font-size:12px; font-weight:bold;">අනුග්‍රාහක දැන්වීම්</p>', unsafe_allow_html=True)
     
-    # ඔබට ලැබුණු දැන්වීමේ පින්තූරය ඇත්නම් පහත URL එක වෙනස් කරන්න
-    AD_IMAGE = "https://via.placeholder.com/300x200.png?text=ඔබේ+දැන්වීම+මෙහි"
-    
-    st.sidebar.markdown(f"""
-        <div class="ad-card">
-            <img src="{AD_IMAGE}" style="width:100%; border-radius:8px; margin-bottom:10px;">
-            <p style="color:#cbd5e1; font-size:13px;">ඔබේ ව්‍යාපාරය දහස් ගණනක් වෙත ගෙන යන්න.</p>
-            <a href="https://wa.me/94XXXXXXXXX" target="_blank" style="text-decoration:none;">
-                <div style="background:#facc15; color:black; padding:8px; border-radius:5px; font-weight:bold; font-size:14px;">දැන්වීම් පළ කිරීමට</div>
-            </a>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    st.sidebar.markdown("---")
-    if st.sidebar.button("Logout"):
-        st.session_state['is_logged_in'] = False
-        st.rerun()
-
-    # Main Grid (Links)
-    st.markdown('<p class="yellow-text">Explore Our Educational Tools & Games:</p>', unsafe_allow_html=True)
-    
-    cols = st.columns(3)
-    for idx, item in enumerate(LINKS_DATA):
-        with cols[idx % 3]:
-            st.link_button(f"{item['icon']} {item['name']}", item['url'], use_container_width=True)
-
-    st.markdown("---")
-    st.caption("© 2025 IsuruSoft Web Solutions | Specialized Marketing Portal")
+    AD_IMAGE = "
