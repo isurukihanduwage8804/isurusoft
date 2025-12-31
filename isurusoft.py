@@ -4,12 +4,12 @@ import random
 # 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව", page_icon="📖", layout="wide")
 
-# --- Page View Counter (50,000 සිට ආරම්භ වේ) ---
+# --- Page View Counter (50,000 සිට ආරම්භ වන අතර අහඹු ලෙස වැඩිවේ) ---
 if 'view_count' not in st.session_state:
     st.session_state['view_count'] = 50240 
 
 if 'counted' not in st.session_state:
-    st.session_state['view_count'] += random.randint(10, 50)
+    st.session_state['view_count'] += random.randint(15, 60)
     st.session_state['counted'] = True
 
 # --- ලින්ක් 23 දත්ත ---
@@ -62,7 +62,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- LOGIN ---
+# --- LOGIN (දැන්වීම් පෙන්වන්නේ නැත) ---
 if not st.session_state['is_logged_in']:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 1.5, 1])
@@ -71,47 +71,48 @@ if not st.session_state['is_logged_in']:
         u = st.text_input("", key="login_u", label_visibility="collapsed")
         st.markdown('<p class="yellow-text">Password</p>', unsafe_allow_html=True)
         p = st.text_input("", type="password", key="login_p", label_visibility="collapsed")
-        if st.button("LOGIN"):
+        if st.button("ඇතුළු වන්න (Login)"):
             if u == "isurusoft" and p == "123456":
                 st.session_state['is_logged_in'] = True
                 st.rerun()
-            else: st.error("වැරදි විස්තර ඇතුළත් කළා!")
+            else: st.error("ඇතුළත් කළ තොරතුරු වැරදියි!")
 
-# --- MAIN DASHBOARD ---
+# --- MAIN DASHBOARD (දැන්වීම් පෙන්වන්නේ මෙහි පමණි) ---
 else:
     st.markdown('<div class="red-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</div>', unsafe_allow_html=True)
     
-    # Sidebar with View Count
+    # Sidebar
     st.sidebar.markdown(f'<h3 style="color:#facc15;">Views: {st.session_state["view_count"]:,}</h3>', unsafe_allow_html=True)
     st.sidebar.markdown("---")
     
-    # AD SECTION
+    # AD SECTION IN SIDEBAR
     st.sidebar.markdown('<p style="color:white; font-size:12px; font-weight:bold;">අනුග්‍රාහක දැන්වීම්</p>', unsafe_allow_html=True)
     
-    # පින්තූරය ලැබෙන තෙක් තාවකාලික පින්තූරයක් යොදා ඇත
-    AD_IMAGE_URL = "https://via.placeholder.com/300x200.png?text=Ad+Space+Available"
+    # GitHub එකට upload කළ ad1.jpg පින්තූරය පෙන්වීමට
+    AD_IMAGE_URL = "https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/ad1.jpg"
     
     st.sidebar.markdown(f"""
         <div class="ad-card">
-            <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:8px; margin-bottom:10px;">
-            <p style="color:#cbd5e1; font-size:13px;">ඔබේ ව්‍යාපාරය දහස් ගණනක් වෙත ගෙන යන්න.</p>
-            <a href="https://wa.me/94XXXXXXXXX" target="_blank" style="text-decoration:none;">
-                <div style="background:#facc15; color:black; padding:8px; border-radius:5px; font-weight:bold;">දැන්වීම් පළ කිරීමට</div>
+            <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:8px; margin-bottom:10px;" alt="Ad Image">
+            <p style="color:#cbd5e1; font-size:13px;">G.H. Ariyadasa Book Shop - Galle</p>
+            <a href="https://wa.me/94770000000" target="_blank" style="text-decoration:none;">
+                <div style="background:#facc15; color:black; padding:8px; border-radius:5px; font-weight:bold; font-size:14px;">Contact via WhatsApp</div>
             </a>
         </div>
     """, unsafe_allow_html=True)
     
     st.sidebar.markdown("---")
-    if st.sidebar.button("Logout"):
+    if st.sidebar.button("පිටවන්න (Logout)"):
         st.session_state['is_logged_in'] = False
         st.rerun()
 
-    # Main Grid
-    st.markdown('<p class="yellow-text">අවශ්‍ය සේවාව තෝරාගන්න:</p>', unsafe_allow_html=True)
+    # Main Grid (Links)
+    st.markdown('<p class="yellow-text">අවශ්‍ය ක්‍රීඩාව හෝ සේවාව තෝරාගන්න:</p>', unsafe_allow_html=True)
+    
     cols = st.columns(3)
     for idx, item in enumerate(LINKS_DATA):
         with cols[idx % 3]:
             st.link_button(f"{item['icon']} {item['name']}", item['url'], use_container_width=True)
 
     st.markdown("---")
-    st.caption("© 2025 IsuruSoft Web Solutions")
+    st.caption("© 2025 IsuruSoft Web Solutions | Specialized Marketing Portal")
