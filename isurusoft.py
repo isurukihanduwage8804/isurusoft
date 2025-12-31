@@ -3,7 +3,7 @@ import streamlit as st
 # 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව", page_icon="📖", layout="wide")
 
-# ලින්ක් 23 සහ ඒවාට අදාළ අයිකන්
+# ඔබ ලබාදුන් ලින්ක් 23 සහ ඒවාට අදාළ අයිකන්
 LINKS_DATA = [
     {"name": "Graph Art 2", "url": "https://nicegrap2.streamlit.app/", "icon": "🎨"},
     {"name": "IsuruSoft Portal", "url": "https://isurusoft.streamlit.app/", "icon": "🌐"},
@@ -58,11 +58,9 @@ if not st.session_state['is_logged_in']:
     
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        # Username ලේබලය කහ පැහැයෙන්
         st.markdown('<p class="yellow-text">පරිශීලක නම (Username)</p>', unsafe_allow_html=True)
         user_input = st.text_input("", key="user_in", label_visibility="collapsed")
         
-        # Password ලේබලය කහ පැහැයෙන්
         st.markdown('<p class="yellow-text">මුරපදය (Password)</p>', unsafe_allow_html=True)
         pass_input = st.text_input("", type="password", key="pass_in", label_visibility="collapsed")
         
@@ -76,12 +74,4 @@ if not st.session_state['is_logged_in']:
 
 # --- DASHBOARD SECTION ---
 else:
-    st.markdown('<p class="main-title">ඉසුරු සර්ගේ අධ්‍යාපනික ක්‍රීඩා පුවරුව</p>', unsafe_allow_html=True)
-    st.sidebar.button("Logout", on_click=lambda: st.session_state.update({"is_logged_in": False}))
-    
-    # "ඔබට අවශ්‍ය ක්‍රීඩාව හෝ සේවාව තෝරාගන්න:" යන වැකිය කහ පැහැ ගැන්වීම
-    st.markdown('<p class="yellow-text">ඔබට අවශ්‍ය ක්‍රීඩාව හෝ සේවාව තෝරාගන්න:</p>', unsafe_allow_html=True)
-    st.markdown("---")
-
-    cols_per_row = 3
-    for i in
+    st.markdown('<p class="main-title">
