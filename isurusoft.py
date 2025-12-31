@@ -56,12 +56,12 @@ CATEGORIES = {
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
-    .main-title { text-align: center; color: #ff4b4b; font-size: 45px; font-weight: 800; margin-bottom: 10px; }
+    .main-title { text-align: center; color: #ff4b4b; font-size: 45px; font-weight: 800; margin-bottom: 20px; }
     .sub-title { text-align: center; color: #cbd5e1; font-size: 18px; margin-bottom: 40px; }
     .category-header { background-color: #1e293b; padding: 10px 20px; border-radius: 8px; color: #facc15; font-size: 20px; font-weight: bold; margin-top: 30px; border-left: 5px solid #ff4b4b; }
     .ad-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 10px; text-align: center; }
     .comment-card { background: #1e293b; padding: 10px; border-radius: 8px; margin-bottom: 5px; border-left: 3px solid #facc15; color: #cbd5e1; }
-    .login-image { display: block; margin-left: auto; margin-right: auto; width: 300px; border-radius: 20px; margin-bottom: 20px; }
+    .login-container { background: #1e293b; padding: 30px; border-radius: 15px; border: 1px solid #334155; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -69,21 +69,28 @@ st.markdown("""
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">ISURUSOFT PORTAL</h1>', unsafe_allow_html=True)
     
-    # --- LOGIN IMAGE (2.jpg) ---
-    LOGIN_IMAGE_URL = "https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.jpg"
-    st.markdown(f'<img src="{LOGIN_IMAGE_URL}" class="login-image">', unsafe_allow_html=True)
+    # පේළියක් (Row) නිර්මාණය කර තීරු (Columns) දෙකකට බෙදීම
+    col_img, col_form = st.columns([1.2, 1], gap="large")
     
-    col1, col2, col3 = st.columns([1, 1.2, 1])
-    with col2:
-        st.markdown('<p style="color:#facc15; text-align:center;">කරුණාකර ඉදිරියට යාමට ඇතුළු වන්න</p>', unsafe_allow_html=True)
-        u = st.text_input("User Name", key="user_input")
-        p = st.text_input("Password", type="password", key="pass_input")
+    with col_img:
+        # වම් පැත්තේ පින්තූරය (2.jpg)
+        LOGIN_IMAGE_URL = "https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.jpg"
+        st.image(LOGIN_IMAGE_URL, use_container_width=True)
+        
+    with col_form:
+        # දකුණු පැත්තේ Login Form එක
+        st.markdown('<div class="login-container">', unsafe_allow_html=True)
+        st.markdown('<p style="color:#facc15; font-size:18px; font-weight:bold;">Welcome Back!</p>', unsafe_allow_html=True)
+        u = st.text_input("User Name", key="user_input", placeholder="Enter username")
+        p = st.text_input("Password", type="password", key="pass_input", placeholder="Enter password")
         if st.button("LOGIN", use_container_width=True):
             if u == "isurusoft" and p == "123456":
                 st.session_state['is_logged_in'] = True
                 st.rerun()
             else:
                 st.error("වැරදි තොරතුරු ඇතුළත් කළා!")
+        st.markdown('</div>', unsafe_allow_html=True)
+
 else:
     # MAIN CONTENT (LoggedIn)
     st.markdown('<h1 class="main-title">ISURUSOFT EDUCATIONAL HUB</h1>', unsafe_allow_html=True)
@@ -110,27 +117,4 @@ else:
     
     # Ad Section
     AD_IMAGE_URL = "https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/ad1.jpg"
-    ARIYADASA_URL = "https://web.facebook.com/ariyadasabookshop/?_rdc=1&_rdr#"
-    st.sidebar.markdown(f"""
-        <a href="{ARIYADASA_URL}" target="_blank" style="text-decoration:none;">
-            <div class="ad-card">
-                <img src="{AD_IMAGE_URL}" style="width:100%; border-radius:8px;">
-                <p style="color:#facc15; margin-top:10px;">G.H. Ariyadasa Book Shop</p>
-            </div>
-        </a>
-    """, unsafe_allow_html=True)
-    
-    st.sidebar.markdown("---")
-    if st.sidebar.button("LOGOUT", use_container_width=True):
-        st.session_state['is_logged_in'] = False
-        st.rerun()
-
-    for cat_name, links in CATEGORIES.items():
-        st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
-        cols = st.columns(3)
-        for idx, item in enumerate(links):
-            with cols[idx % 3]:
-                st.link_button(f"{item['icon']} {item['name']}", item['url'], use_container_width=True)
-
-    st.markdown("---")
-    st.caption("© 2025 IsuruSoft Web Solutions")
+    ARIYADASA_
