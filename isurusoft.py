@@ -20,25 +20,25 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (අනවශ්‍ය හිස් කොටු අයින් කිරීමට) ---
+# --- CSS Styling (අනවශ්‍ය කළු කොටු සහ හිස් ඉඩ සම්පූර්ණයෙන්ම මකා දැමීම) ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
 
-    /* පින්තූරයේ Zoom සහ අනවශ්‍ය දේ අයින් කිරීම */
+    /* පින්තූරයේ පෙනුම */
     .img-container img {
         width: 100%;
         border-radius: 10px;
         pointer-events: none;
     }
 
-    /* Streamlit ගේ හිස් Container සහ Padding සම්පූර්ණයෙන්ම අයින් කිරීම */
-    [data-testid="stVerticalBlock"] > div:empty {
+    /* ලේබල් සඳහා වෙන්වන හිස් ඉඩ අයින් කිරීම */
+    div[data-testid="stTextInput"] label {
         display: none !important;
     }
     
-    .block-container {
-        padding-top: 2rem !important;
+    div[data-testid="stTextInput"] div[data-baseweb="input"] {
+        margin-top: -15px;
     }
 
     /* ලොගින් කොටුවේ පෙනුම */
@@ -77,19 +77,19 @@ st.markdown("""
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
     
-    # මෙතන columns දෙක විතරක් පාවිච්චි කරමු
     col1, col2 = st.columns([1.3, 1], gap="medium")
     
     with col1:
         st.markdown('<div class="img-container"><img src="https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png"></div>', unsafe_allow_html=True)
         
     with col2:
-        # ලොගින් බොක්ස් එක පටන් ගැන්ම (HTML ඇතුළේම input ටික දැම්මොත් Streamlit errors දෙනවා, ඒ නිසා wrapper එකක් විතරක් පාවිච්චි කරමු)
         st.markdown('<div class="login-box">', unsafe_allow_html=True)
-        st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 15px 0; border:none;">Member Login</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 10px 0; border:none;">Member Login</h3>', unsafe_allow_html=True)
         
-        u = st.text_input("User Name", key="u_name", label_visibility="visible")
-        p = st.text_input("Password", type="password", key="p_word", label_visibility="visible")
+        # label_visibility="collapsed" දැමීමෙන් අර හිස් ඉඩ නැතිවේ
+        u = st.text_input("User Name", key="u_name", placeholder="User Name", label_visibility="collapsed")
+        st.write("") # කුඩා පරතරයක් සඳහා
+        p = st.text_input("Password", type="password", key="p_word", placeholder="Password", label_visibility="collapsed")
         
         if st.button("LOGIN NOW", use_container_width=True):
             if u in USERS and USERS[u] == p:
@@ -98,7 +98,6 @@ if not st.session_state['is_logged_in']:
             else:
                 st.error("නම හෝ මුද්‍රාපදය වැරදියි!")
         
-        # Membership Info
         st.markdown(f'''
             <div class="get-member">
                 <p style="color:#cbd5e1; font-size:12px; margin-bottom:5px;">Don't have an account?</p>
