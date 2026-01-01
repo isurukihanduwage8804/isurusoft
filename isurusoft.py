@@ -53,7 +53,9 @@ else:
         st.session_state['is_logged_in'] = False
         st.rerun()
 
-    # ලින්ක් එකක්වත් නොකැඩෙන ලෙස සකස් කළ ලිස්ට් එක
+    # දිග ලින්ක් එක කෑලි වලට කඩා ලියා ඇත
+    quiz_url = "https://sciencetist-question-hknjybq5xxdcmrhcjahqol" + ".streamlit.app/"
+
     CATEGORIES = {
         "🔢 Maths & Science": [
             {"n": "Geometry Dance", "u": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "i": "📐"},
@@ -88,4 +90,16 @@ else:
             {"n": "Tetris Maths", "u": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "i": "🕹️"}
         ],
         "🌍 General Knowledge": [
-            {"n": "Science Quiz", "u": "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.
+            {"n": "Science Quiz", "u": quiz_url, "i": "🔬"}
+        ]
+    }
+
+    for cat_name, links in CATEGORIES.items():
+        st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
+        cols = st.columns(3)
+        for i, item in enumerate(links):
+            with cols[i % 3]:
+                st.link_button(f"{item['i']} {item['n']}", item['u'], use_container_width=True)
+
+    st.markdown("---")
+    st.caption("© 2026 IsuruSoft Web Solutions")
