@@ -4,18 +4,16 @@ import random
 # 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="IsuruSoft Educational Portal", page_icon="🎓", layout="wide")
 
-# --- Session State Initializations ---
+# --- Session State ---
 if 'view_count' not in st.session_state:
     st.session_state['view_count'] = 50240 
-
 if 'counted' not in st.session_state:
     st.session_state['view_count'] += random.randint(15, 60)
     st.session_state['counted'] = True
-
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (වැරදි නැතිව Full Screen Hide කර ඇත) ---
+# --- CSS Styling ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
@@ -23,25 +21,17 @@ st.markdown("""
     .category-header { background-color: #1e293b; padding: 10px 20px; border-radius: 8px; color: #facc15; font-size: 20px; font-weight: bold; margin-top: 30px; border-left: 5px solid #ff4b4b; }
     .login-container { background: #1e293b; padding: 30px; border-radius: 15px; border: 1px solid #334155; }
     .welcome-text { color: #facc15; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
-    
-    /* Full Screen Button එක අයින් කරන කෝඩ් එක */
-    button[title="View fullscreen"] {
-        display: none !important;
-    }
-    
-    [data-testid="stImage"] img {
-        border-radius: 15px;
-    }
+    button[title="View fullscreen"] { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# 1. LOGIN පරීක්ෂාව
+# 1. LOGIN SECTION
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">ISURUSOFT PORTAL</h1>', unsafe_allow_html=True)
     col_img, col_form = st.columns([1.2, 1], gap="large")
     with col_img:
-        # ඔයාගේ අලුත් PNG එක ලින්ක් කළා
-        st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png?v=4", use_container_width=True)
+        # PNG Image
+        st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png", use_container_width=True)
     with col_form:
         st.markdown('<div class="login-container">', unsafe_allow_html=True)
         st.markdown('<p class="welcome-text">Welcome Back!</p>', unsafe_allow_html=True)
@@ -55,7 +45,7 @@ if not st.session_state['is_logged_in']:
                 st.error("Login තොරතුරු වැරදියි!")
         st.markdown('</div>', unsafe_allow_html=True)
 
-# 2. LOGIN වූ පසු පෙන්වන කොටස
+# 2. MAIN HUB SECTION
 else:
     st.markdown('<h1 class="main-title">ISURUSOFT EDUCATIONAL HUB</h1>', unsafe_allow_html=True)
     st.sidebar.markdown(f'<h2 style="color:#facc15; text-align:center;">VIEWS: {st.session_state["view_count"]:,}</h2>', unsafe_allow_html=True)
@@ -63,32 +53,39 @@ else:
         st.session_state['is_logged_in'] = False
         st.rerun()
 
-    # --- සියලුම ලින්ක්ස් මෙතන තියෙනවා (පරීක්ෂා කර බලන්න) ---
+    # ලින්ක් එකක්වත් නොකැඩෙන ලෙස සකස් කළ ලිස්ට් එක
     CATEGORIES = {
-        "🔢 ගණිතය සහ විද්‍යාව (Maths & Science)": [
-            {"name": "Geometry Dance", "url": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "icon": "📐"},
-            {"name": "Graph Art 2", "url": "https://nicegrap2.streamlit.app/", "icon": "🎨"},
-            {"name": "Periodic Table", "url": "https://prtable.streamlit.app/", "icon": "🧪"},
-            {"name": "Angle Shape", "url": "https://angaleshape.streamlit.app/", "icon": "📐"},
-            {"name": "Atom Animation", "url": "https://atomanimation.streamlit.app/", "icon": "⚛️"},
-            {"name": "Grade 5 Maths", "url": "https://grade5maths.streamlit.app/", "icon": "🔢"},
-            {"name": "Graph 1", "url": "https://graph-1-4e7bbfbpkg9aw5uvxp9yc6.streamlit.app/", "icon": "📊"},
-            {"name": "Maths 680", "url": "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/", "icon": "🎓"}
+        "🔢 Maths & Science": [
+            {"n": "Geometry Dance", "u": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "i": "📐"},
+            {"n": "Graph Art 2", "u": "https://nicegrap2.streamlit.app/", "i": "🎨"},
+            {"n": "Periodic Table", "u": "https://prtable.streamlit.app/", "i": "🧪"},
+            {"n": "Angle Shape", "u": "https://angaleshape.streamlit.app/", "i": "📐"},
+            {"n": "Atom Animation", "u": "https://atomanimation.streamlit.app/", "i": "⚛️"},
+            {"n": "Grade 5 Maths", "u": "https://grade5maths.streamlit.app/", "i": "🔢"},
+            {"n": "Graph 1", "u": "https://graph-1-4e7bbfbpkg9aw5uvxp9yc6.streamlit.app/", "i": "📊"},
+            {"n": "Maths 680", "u": "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/", "i": "🎓"}
         ],
-        "📚 භාෂාව සහ පොදු දැනුම (Language & Knowledge)": [
-            {"name": "IsuruSoft Portal", "url": "https://isurusoft.streamlit.app/", "icon": "🌐"},
-            {"name": "Rachana 2", "url": "https://rachana-2new.streamlit.app/", "icon": "✍️"},
-            {"name": "Grade 5 Sinhala", "url": "https://grade5sinhalanew.streamlit.app/", "icon": "📚"},
-            {"name": "Word Meaning", "url": "https://word-meaning-ndkg9veahhahsqweqimcrz.streamlit.app/", "icon": "📖"},
-            {"name": "Budda Darmaya", "url": "https://budda-darmaya-1.streamlit.app/", "icon": "☸️"},
-            {"name": "BMI Manager", "url": "https://bmimannew.streamlit.app/", "icon": "⚖️"}
+        "📚 Language & Knowledge": [
+            {"n": "IsuruSoft Portal", "u": "https://isurusoft.streamlit.app/", "i": "🌐"},
+            {"n": "Rachana 2", "u": "https://rachana-2new.streamlit.app/", "i": "✍️"},
+            {"n": "Grade 5 Sinhala", "u": "https://grade5sinhalanew.streamlit.app/", "i": "📚"},
+            {"n": "Word Meaning", "u": "https://word-meaning-ndkg9veahhahsqweqimcrz.streamlit.app/", "i": "📖"},
+            {"n": "Budda Darmaya", "u": "https://budda-darmaya-1.streamlit.app/", "i": "☸️"},
+            {"n": "BMI Manager", "u": "https://bmimannew.streamlit.app/", "i": "⚖️"}
         ],
-        "🎮 ප්‍රහේලිකා සහ ක්‍රීඩා (Puzzles & Games)": [
-            {"name": "Water Fraction", "url": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "icon": "🥤"},
-            {"name": "Math Combat", "url": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "icon": "⚔️"},
-            {"name": "3D App Best", "url": "https://3dappbest.streamlit.app/", "icon": "🧊"},
-            {"name": "Sankya Dadayama", "url": "https://sankyadadayamanew2.streamlit.app/", "icon": "🎯"},
-            {"name": "Maths Puzzle", "url": "https://mathspuzzle1.streamlit.app/", "icon": "🧩"},
-            {"name": "Real Puzzle 1", "url": "https://real-puzzle-1-csyvarjphxh9z9tndnj4ff.streamlit.app/", "icon": "🎮"},
-            {"name": "Answer to Ques", "url": "https://anser-to-ques2-c9yurtmondfbzjcpoxguwn.streamlit.app/", "icon": "💡"},
-            {"name": "Therawili", "url": "https://theraw
+        "🎮 Puzzles & Games": [
+            {"n": "Water Fraction", "u": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "i": "🥤"},
+            {"n": "Math Combat", "u": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "i": "⚔️"},
+            {"n": "3D App Best", "u": "https://3dappbest.streamlit.app/", "i": "🧊"},
+            {"n": "Sankya Dadayama", "u": "https://sankyadadayamanew2.streamlit.app/", "i": "🎯"},
+            {"n": "Maths Puzzle", "u": "https://mathspuzzle1.streamlit.app/", "i": "🧩"},
+            {"n": "Real Puzzle 1", "u": "https://real-puzzle-1-csyvarjphxh9z9tndnj4ff.streamlit.app/", "i": "🎮"},
+            {"n": "Answer to Ques", "u": "https://anser-to-ques2-c9yurtmondfbzjcpoxguwn.streamlit.app/", "i": "💡"},
+            {"n": "Therawili", "u": "https://therawili-gzggdyxieygqhaifx6jp8k.streamlit.app/", "i": "🕵️"},
+            {"n": "Money Converter", "u": "https://mony-converter-zhtsej33cdvttrtwqhle4q.streamlit.app/", "i": "💱"},
+            {"n": "Shape Converter", "u": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "i": "🔄"},
+            {"n": "4 Box Game", "u": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc.streamlit.app/", "i": "📦"},
+            {"n": "Tetris Maths", "u": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "i": "🕹️"}
+        ],
+        "🌍 General Knowledge": [
+            {"n": "Science Quiz", "u": "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.
