@@ -50,24 +50,4 @@ CATEGORIES = {
         {"name": "Money Converter", "url": "https://mony-converter-zhtsej33cdvttrtwqhle4q.streamlit.app/", "icon": "💱"},
         {"name": "Shape Converter", "url": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "icon": "🔄"},
         {"name": "4 Box Game", "url": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc.streamlit.app/", "icon": "📦"},
-        {"name": "Tetris Maths", "url": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "icon": "🕹️"}
-    ]
-}
-
-# --- CSS Styling ---
-st.markdown("""
-<style>
-    .stApp { background-color: #0f172a; }
-    .main-title { text-align: center; color: #ff4b4b; font-size: 45px; font-weight: 800; margin-bottom: 20px; }
-    .sub-title { text-align: center; color: #cbd5e1; font-size: 18px; margin-bottom: 40px; }
-    .category-header { background-color: #1e293b; padding: 10px 20px; border-radius: 8px; color: #facc15; font-size: 20px; font-weight: bold; margin-top: 30px; border-left: 5px solid #ff4b4b; }
-    .ad-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 10px; text-align: center; }
-    .comment-card { background: #1e293b; padding: 10px; border-radius: 8px; margin-bottom: 5px; border-left: 3px solid #facc15; color: #cbd5e1; }
-    .login-container { background: #1e293b; padding: 30px; border-radius: 15px; border: 1px solid #334155; }
-</style>
-""", unsafe_allow_html=True)
-
-# --- APP FLOW ---
-if not st.session_state['is_logged_in']:
-    st.markdown('<h1 class="main-title">ISURUSOFT PORTAL</h1>', unsafe_allow_html=True)
-    col_img, col_form = st.columns([1.2,
+        {"name": "Tetris
