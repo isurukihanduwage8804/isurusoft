@@ -20,32 +20,36 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (වැඩි දියුණු කළ පෙනුම) ---
+# --- CSS Styling (විශේෂයෙන්ම අනවශ්‍ය කොටු ඉවත් කිරීමට) ---
 st.markdown("""
 <style>
     /* මුළු ඇප් එකේම පසුබිම */
     .stApp { background-color: #0f172a; }
 
+    /* Streamlit වල ස්වයංක්‍රීයව එන හැම Border එකක්ම අයින් කිරීම */
+    div[data-testid="stVerticalBlock"] > div {
+        border: none !important;
+    }
+    
     /* පින්තූරයේ Zoom සහ කොටු අයින් කිරීම */
-    [data-testid="stMarkdownContainer"] img {
+    .img-container img {
         width: 100%;
         border-radius: 10px;
-        pointer-events: none; /* පින්තූරය ක්ලික් කිරීම වැළැක්වීමට */
+        pointer-events: none;
     }
 
-    /* ලොගින් කොටුවේ පෙනුම - උඩ කොටු ගතිය අයින් කළා */
+    /* ලොගින් කොටුවේ පෙනුම */
     .login-box {
         background: #1e293b; 
         padding: 30px; 
         border-radius: 15px; 
-        border: 1px solid #334155; 
+        border: 1px solid #334155 !important; 
         box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        margin-top: 0px; /* උඩ පරතරය බින්දු කළා */
     }
 
-    /* Streamlit ගේ ඉබේ එන Padding අයින් කිරීම */
-    .block-container {
-        padding-top: 2rem !important;
+    /* මාතෘකාවලට එන ස්වයංක්‍රීය Borders අයින් කිරීම */
+    h1, h2, h3 {
+        border-bottom: none !important;
     }
 
     .main-title { 
@@ -78,13 +82,12 @@ if not st.session_state['is_logged_in']:
     col1, col2 = st.columns([1.3, 1], gap="large")
     
     with col1:
-        # HTML Image - මේකෙන් Zoom බටන් එක එන්නේ නැහැ
         st.markdown('<div class="img-container"><img src="https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png"></div>', unsafe_allow_html=True)
         
     with col2:
         # ලොගින් බොක්ස් එක ආරම්භය
         st.markdown('<div class="login-box">', unsafe_allow_html=True)
-        st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 20px 0; border:none; padding:0;">Member Login</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 20px 0;">Member Login</h3>', unsafe_allow_html=True)
         
         u = st.text_input("User Name", key="u_name")
         p = st.text_input("Password", type="password", key="p_word")
