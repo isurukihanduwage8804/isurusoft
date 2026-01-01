@@ -117,4 +117,42 @@ else:
             {"n": "Angle Shape", "u": "https://angaleshape.streamlit.app/", "i": "📐"},
             {"n": "Atom Animation", "u": "https://atomanimation.streamlit.app/", "i": "⚛️"},
             {"n": "Grade 5 Maths", "u": "https://grade5maths.streamlit.app/", "i": "🔢"},
-            {"n": "Graph 1", "u": "https://graph-1-4e7bbfbpkg9aw5uvxp9yc6
+            {"n": "Graph 1", "u": "https://graph-1-4e7bbfbpkg9aw5uvxp9yc6.streamlit.app/", "i": "📊"},
+            {"n": "Maths 680", "u": "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/", "i": "🎓"}
+        ],
+        "📚 භාෂාව සහ දැනුම": [
+            {"n": "IsuruSoft Portal", "u": "https://isurusoft.streamlit.app/", "i": "🌐"},
+            {"n": "Rachana 2", "u": "https://rachana-2new.streamlit.app/", "i": "✍️"},
+            {"n": "Grade 5 Sinhala", "u": "https://grade5sinhalanew.streamlit.app/", "i": "📚"},
+            {"n": "Word Meaning", "u": "https://word-meaning-ndkg9veahhahsqweqimcrz.streamlit.app/", "i": "📖"},
+            {"n": "Budda Darmaya", "u": "https://budda-darmaya-1.streamlit.app/", "i": "☸️"},
+            {"n": "BMI Manager", "u": "https://bmimannew.streamlit.app/", "i": "⚖️"}
+        ],
+        "🎮 ක්‍රීඩා සහ ප්‍රහේලිකා": [
+            {"n": "Water Fraction", "u": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "i": "🥤"},
+            {"n": "Math Combat", "u": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "i": "⚔️"},
+            {"n": "3D App Best", "u": "https://3dappbest.streamlit.app/", "i": "🧊"},
+            {"n": "Sankya Dadayama", "u": "https://sankyadadayamanew2.streamlit.app/", "i": "🎯"},
+            {"n": "Maths Puzzle", "u": "https://mathspuzzle1.streamlit.app/", "i": "🧩"},
+            {"n": "Real Puzzle 1", "u": "https://real-puzzle-1-csyvarjphxh9z9tndnj4ff.streamlit.app/", "i": "🎮"},
+            {"n": "Answer to Ques", "u": "https://anser-to-ques2-c9yurtmondfbzjcpoxguwn.streamlit.app/", "i": "💡"},
+            {"n": "Therawili", "u": "https://therawili-gzggdyxieygqhaifx6jp8k.streamlit.app/", "i": "🕵️"},
+            {"n": "Money Converter", "u": "https://mony-converter-zhtsej33cdvttrtwqhle4q.streamlit.app/", "i": "💱"},
+            {"n": "Shape Converter", "u": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "i": "🔄"},
+            {"n": "4 Box Game", "u": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc.streamlit.app/", "i": "📦"},
+            {"n": "Tetris Maths", "u": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "i": "🕹️"}
+        ],
+        "🌍 සාමාන්‍ය දැනීම": [
+            {"n": "විද්‍යාඥයින් කවුද?", "u": quiz_url, "i": "🔬"}
+        ]
+    }
+
+    for cat_name, links in CATEGORIES.items():
+        st.markdown(f'<div style="background-color: #1e293b; padding: 8px 15px; border-radius: 8px; color: #facc15; font-size: 17px; font-weight: bold; margin-top: 20px; border-left: 5px solid #ff0000;">{cat_name}</div>', unsafe_allow_html=True)
+        cols = st.columns(3)
+        for i, item in enumerate(links):
+            with cols[i % 3]:
+                st.link_button(f"{item['i']} {item['n']}", item['u'], use_container_width=True)
+
+    st.markdown("---")
+    st.caption("© 2026 South Vision Web Solutions")
