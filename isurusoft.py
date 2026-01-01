@@ -38,7 +38,7 @@ st.markdown("""
         padding: 25px; 
         border-radius: 12px; 
         border: 1px solid #334155;
-        margin-top: 15px;
+        margin-top: 5px;
     }
     
     .support-text {
@@ -50,18 +50,6 @@ st.markdown("""
         font-weight: bold;
         font-size: 16px;
         margin-bottom: 10px;
-    }
-
-    .welcome-box {
-        color: #facc15;
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #334155;
-        border-radius: 8px;
-        background-color: #1e293b;
     }
 
     button[title="View fullscreen"] { display: none !important; }
@@ -78,13 +66,15 @@ if not st.session_state['is_logged_in']:
         st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png", use_container_width=True)
         
     with col2:
+        # Customer Support බාර් එක
         st.markdown('<div class="support-text">📞 Customer Support: 0766 770 856</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="welcome-box">Welcome</div>', unsafe_allow_html=True)
-        
+        # Login Box (දැන් Welcome එකත් මේ ඇතුළේමයි තියෙන්නේ)
         st.markdown('<div class="login-container">', unsafe_allow_html=True)
+        st.markdown('<h2 style="color:#facc15; text-align:center; margin-bottom:20px;">Welcome</h2>', unsafe_allow_html=True)
+        
         with st.form("login_form", clear_on_submit=False):
-            st.markdown('<p style="color:#facc15; font-weight:bold; font-size:18px; margin-bottom:15px;">Login to Your Account</p>', unsafe_allow_html=True)
+            st.markdown('<p style="color:#ffffff; font-size:14px; margin-bottom:5px;">Login to Your Account</p>', unsafe_allow_html=True)
             u = st.text_input("User Name", placeholder="Enter Username", label_visibility="collapsed")
             p = st.text_input("Password", type="password", placeholder="Enter Password", label_visibility="collapsed")
             submit = st.form_submit_button("LOGIN", use_container_width=True)
