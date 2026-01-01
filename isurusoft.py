@@ -41,13 +41,13 @@ if not st.session_state['is_logged_in']:
                 st.session_state['is_logged_in'] = True
                 st.rerun()
             else:
-                st.error("ලොගින් තොරතුරු වැරදියි!")
+                st.error("Login තොරතුරු වැරදියි!")
         st.markdown('</div>', unsafe_allow_html=True)
 
 # 2. LOGIN වූ පසු පෙන්වන කොටස
 else:
     st.markdown('<h1 class="main-title">ISURUSOFT EDUCATIONAL HUB</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="sub-title">අනාගත පරපුර වෙනුවෙන් තැනූ අධ්‍යාපනික මෙවලම් කට්ටලය</p>', unsafe_allow_html=True)
+    st.markdown('<p class="sub-title">අනාගත පරපුර වෙනුවෙන් තැනූ නවීන අධ්‍යාපනික මෙවලම් කට්ටලය</p>', unsafe_allow_html=True)
     
     st.sidebar.markdown(f'<h2 style="color:#facc15; text-align:center;">VIEWS: {st.session_state["view_count"]:,}</h2>', unsafe_allow_html=True)
     if st.sidebar.button("LOGOUT", use_container_width=True):
@@ -83,4 +83,5 @@ else:
             {"name": "Answer to Ques", "url": "https://anser-to-ques2-c9yurtmondfbzjcpoxguwn.streamlit.app/", "icon": "💡"},
             {"name": "Therawili", "url": "https://therawili-gzggdyxieygqhaifx6jp8k.streamlit.app/", "icon": "🕵️"},
             {"name": "Money Converter", "url": "https://mony-converter-zhtsej33cdvttrtwqhle4q.streamlit.app/", "icon": "💱"},
-            {"name": "Shape Converter", "url": "
+            {"name": "Shape Converter", "url": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "icon": "🔄"},
+            {"name": "4 Box Game", "url": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc
