@@ -20,7 +20,7 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (අනවශ්‍ය කළු කොටු සහ හිස් ඉඩ සම්පූර්ණයෙන්ම මකා දැමීම) ---
+# --- CSS Styling ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
@@ -86,9 +86,8 @@ if not st.session_state['is_logged_in']:
         st.markdown('<div class="login-box">', unsafe_allow_html=True)
         st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 10px 0; border:none;">Member Login</h3>', unsafe_allow_html=True)
         
-        # label_visibility="collapsed" දැමීමෙන් අර හිස් ඉඩ නැතිවේ
         u = st.text_input("User Name", key="u_name", placeholder="User Name", label_visibility="collapsed")
-        st.write("") # කුඩා පරතරයක් සඳහා
+        st.write("") 
         p = st.text_input("Password", type="password", key="p_word", placeholder="Password", label_visibility="collapsed")
         
         if st.button("LOGIN NOW", use_container_width=True):
@@ -130,7 +129,8 @@ else:
             {"n": "Atom Animation", "u": "https://atomanimation.streamlit.app/", "i": "⚛️"},
             {"n": "Grade 5 Maths", "u": "https://grade5maths.streamlit.app/", "i": "🔢"},
             {"n": "Graph 1", "u": "https://graph-1-4e7bbfbpkg9aw5uvxp9yc6.streamlit.app/", "i": "📊"},
-            {"n": "Maths 680", "u": "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/", "i": "🎓"}
+            {"n": "Maths 680", "u": "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/", "i": "🎓"},
+            {"n": "Grade 4 Maths Master", "u": "https://grade4maths-mfu74gfzjqfwydpcyeonqi.streamlit.app/", "i": "🏫"}
         ],
         "📚 භාෂාව සහ දැනුම": [
             {"n": "IsuruSoft Portal", "u": "https://isurusoft.streamlit.app/", "i": "🌐"},
