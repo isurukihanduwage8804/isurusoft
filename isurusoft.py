@@ -84,4 +84,20 @@ else:
             {"name": "Therawili", "url": "https://therawili-gzggdyxieygqhaifx6jp8k.streamlit.app/", "icon": "🕵️"},
             {"name": "Money Converter", "url": "https://mony-converter-zhtsej33cdvttrtwqhle4q.streamlit.app/", "icon": "💱"},
             {"name": "Shape Converter", "url": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "icon": "🔄"},
-            {"name": "4 Box Game", "url": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc
+            {"name": "4 Box Game", "url": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc.streamlit.app/", "icon": "📦"},
+            {"name": "Tetris Maths", "url": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "icon": "🕹️"}
+        ],
+        "🌍 සාමාන්‍ය දැනීම (General Knowledge)": [
+            {"name": "විද්‍යාඥයින් කවුද? Quiz", "url": "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.app/", "icon": "🔬"}
+        ]
+    }
+
+    for cat, links in CATEGORIES.items():
+        st.markdown(f'<div class="category-header">{cat}</div>', unsafe_allow_html=True)
+        cols = st.columns(3)
+        for i, item in enumerate(links):
+            with cols[i % 3]:
+                st.link_button(f"{item['icon']} {item['name']}", item['url'], use_container_width=True)
+
+    st.markdown("---")
+    st.caption("© 2025 IsuruSoft Web Solutions")
