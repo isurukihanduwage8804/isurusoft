@@ -13,7 +13,7 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (අනවශ්‍ය කොටු ඉවත් කර පෙනුම ඔප මට්ටම් කර ඇත) ---
+# --- CSS Styling (Layout එක හරියටම පෙනෙන විදිහට) ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
@@ -21,7 +21,7 @@ st.markdown("""
     .main-title { 
         text-align: center; 
         color: #ff0000 !important; 
-        font-size: 28px; 
+        font-size: 26px; 
         font-weight: 800; 
         margin-bottom: 10px;
         text-shadow: 1px 1px 2px #000000;
@@ -44,7 +44,7 @@ st.markdown("""
         text-align: center;
         font-weight: bold;
         font-size: 15px;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
 
     .category-header { 
@@ -54,32 +54,41 @@ st.markdown("""
         color: #facc15; 
         font-size: 17px; 
         font-weight: bold; 
-        margin-top: 25px; 
+        margin-top: 20px; 
         border-left: 5px solid #ff0000; 
     }
+
+    /* අනවශ්‍ය ඉඩවල් ඉවත් කිරීම */
+    [data-testid="stVerticalBlock"] { gap: 0.2rem; }
+    .block-container { padding-top: 2rem; }
 
     button[title="View fullscreen"] { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# 1. LOGIN SECTION
+# 1. LOGIN SECTION (පින්තූරය වම් පැත්තේ සහ Login දකුණු පැත්තේ)
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
     
-    _, center_col, _ = st.columns([1, 2, 1])
+    # 60% වමට සහ 40% දකුණට බෙදීම
+    col1, col2 = st.columns([1.2, 1], gap="medium")
     
-    with center_col:
-        # --- පින්තූරය ---
+    with col1:
+        # වම් පැත්තේ පින්තූරය (2.png)
         st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png", use_container_width=True)
         
-        # --- Customer Support ---
+    with col2:
+        # දකුණු පැත්තේ Customer Support
         st.markdown('<div class="support-text">📞 Customer Support: 0766 770 856</div>', unsafe_allow_html=True)
         
-        # --- Login Box (අර හිස් කොටුව අයින් කර ඇත) ---
-        with st.form("login_form"):
-            st.markdown('<p style="color:#facc15; font-weight:bold;">Login to Your Account</p>', unsafe_allow_html=True)
-            u = st.text_input("User Name", placeholder="Enter Username")
-            p = st.text_input("Password", type="password", placeholder="Enter Password")
+        # Login Box
+        st.markdown('<div class="login-container">', unsafe_allow_html=True)
+        st.markdown('<p style="color:#facc15; font-weight:bold; margin-bottom:5px;">Login to Your Account</p>', unsafe_allow_html=True)
+        
+        # Form එකක් ලෙස භාවිතයෙන් අනවශ්‍ය කොටු ඉවත් කිරීම
+        with st.form("login_form", clear_on_submit=False):
+            u = st.text_input("User Name", placeholder="Username", label_visibility="collapsed")
+            p = st.text_input("Password", type="password", placeholder="Password", label_visibility="collapsed")
             submit = st.form_submit_button("LOGIN", use_container_width=True)
             
             if submit:
@@ -88,6 +97,7 @@ if not st.session_state['is_logged_in']:
                     st.rerun()
                 else:
                     st.error("Login තොරතුරු වැරදියි!")
+        st.markdown('</div>', unsafe_allow_html=True)
 
 # 2. MAIN HUB SECTION (Logged In)
 else:
@@ -118,33 +128,4 @@ else:
             {"n": "Grade 5 Sinhala", "u": "https://grade5sinhalanew.streamlit.app/", "i": "📚"},
             {"n": "Word Meaning", "u": "https://word-meaning-ndkg9veahhahsqweqimcrz.streamlit.app/", "i": "📖"},
             {"n": "Budda Darmaya", "u": "https://budda-darmaya-1.streamlit.app/", "i": "☸️"},
-            {"n": "BMI Manager", "u": "https://bmimannew.streamlit.app/", "i": "⚖️"}
-        ],
-        "🎮 ක්‍රීඩා සහ ප්‍රහේලිකා": [
-            {"n": "Water Fraction", "u": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "i": "🥤"},
-            {"n": "Math Combat", "u": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "i": "⚔️"},
-            {"n": "3D App Best", "u": "https://3dappbest.streamlit.app/", "i": "🧊"},
-            {"n": "Sankya Dadayama", "u": "https://sankyadadayamanew2.streamlit.app/", "i": "🎯"},
-            {"n": "Maths Puzzle", "u": "https://mathspuzzle1.streamlit.app/", "i": "🧩"},
-            {"n": "Real Puzzle 1", "u": "https://real-puzzle-1-csyvarjphxh9z9tndnj4ff.streamlit.app/", "i": "🎮"},
-            {"n": "Answer to Ques", "u": "https://anser-to-ques2-c9yurtmondfbzjcpoxguwn.streamlit.app/", "i": "💡"},
-            {"n": "Therawili", "u": "https://therawili-gzggdyxieygqhaifx6jp8k.streamlit.app/", "i": "🕵️"},
-            {"n": "Money Converter", "u": "https://mony-converter-zhtsej33cdvttrtwqhle4q.streamlit.app/", "i": "💱"},
-            {"n": "Shape Converter", "u": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "i": "🔄"},
-            {"n": "4 Box Game", "u": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc.streamlit.app/", "i": "📦"},
-            {"n": "Tetris Maths", "u": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "i": "🕹️"}
-        ],
-        "🌍 සාමාන්‍ය දැනීම": [
-            {"n": "විද්‍යාඥයින් කවුද?", "u": quiz_url, "i": "🔬"}
-        ]
-    }
-
-    for cat_name, links in CATEGORIES.items():
-        st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
-        cols = st.columns(3)
-        for i, item in enumerate(links):
-            with cols[i % 3]:
-                st.link_button(f"{item['i']} {item['n']}", item['u'], use_container_width=True)
-
-    st.markdown("---")
-    st.caption("© 2026 South Vision Web Solutions")
+            {"n": "BMI Manager", "u": "https://bmimannew.streamlit.
