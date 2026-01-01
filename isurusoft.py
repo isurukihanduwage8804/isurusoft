@@ -31,7 +31,8 @@ if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">ISURUSOFT PORTAL</h1>', unsafe_allow_html=True)
     col_img, col_form = st.columns([1.2, 1], gap="large")
     with col_img:
-        st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.jpg", use_container_width=True)
+        # මෙතන මම .png ලෙස වෙනස් කළා (GitHub එකට 2.png ලෙස දාන්න)
+        st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png", use_container_width=True)
     with col_form:
         st.markdown('<div class="login-container">', unsafe_allow_html=True)
         st.markdown('<p class="welcome-text">Welcome Back!</p>', unsafe_allow_html=True)
@@ -48,12 +49,11 @@ if not st.session_state['is_logged_in']:
 # 2. LOGIN වූ පසු පෙන්වන කොටස
 else:
     st.markdown('<h1 class="main-title">ISURUSOFT EDUCATIONAL HUB</h1>', unsafe_allow_html=True)
-    st.sidebar.markdown(f'<h2 style="color:#facc15;">VIEWS: {st.session_state["view_count"]:,}</h2>', unsafe_allow_html=True)
+    st.sidebar.markdown(f'<h2 style="color:#facc15; text-align:center;">VIEWS: {st.session_state["view_count"]:,}</h2>', unsafe_allow_html=True)
     if st.sidebar.button("LOGOUT", use_container_width=True):
         st.session_state['is_logged_in'] = False
         st.rerun()
 
-    # --- Categories Data ---
     CATEGORIES = {
         "🔢 ගණිතය සහ විද්‍යාව (Maths & Science)": [
             {"name": "Geometry Dance", "url": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "icon": "📐"},
