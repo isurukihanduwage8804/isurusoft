@@ -18,7 +18,6 @@ st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
     
-    /* ප්‍රධාන නම පමණක් රතු පාටින් සහ කුඩාවට */
     .main-title { 
         text-align: center; 
         color: #ff0000 !important; 
@@ -39,10 +38,27 @@ st.markdown("""
         border-left: 5px solid #ff0000; 
     }
     
-    .login-container { background: #1e293b; padding: 30px; border-radius: 15px; border: 1px solid #334155; }
-    .welcome-text { color: #facc15; font-size: 20px; font-weight: bold; margin-bottom: 20px; }
+    .login-container { 
+        background: #1e293b; 
+        padding: 25px; 
+        border-radius: 15px; 
+        border: 1px solid #334155;
+        margin-bottom: 20px;
+    }
     
-    /* Full Screen Button Hide */
+    .welcome-text { color: #facc15; font-size: 20px; font-weight: bold; margin-bottom: 15px; }
+    
+    .support-text {
+        color: #ffffff;
+        background-color: #ff0000;
+        padding: 8px;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
     button[title="View fullscreen"] { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
@@ -50,12 +66,16 @@ st.markdown("""
 # 1. LOGIN SECTION
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
-    col_img, col_form = st.columns([1.2, 1], gap="large")
-    with col_img:
-        st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png", use_container_width=True)
-    with col_form:
+    
+    left_spacer, center_col, right_spacer = st.columns([1, 2, 1])
+    
+    with center_col:
+        # 1. Customer Support (ඉහළින්ම)
+        st.markdown('<div class="support-text">📞 Customer Support: 0766 770 856</div>', unsafe_allow_html=True)
+        
+        # 2. Login Form (දෙවැනුව)
         st.markdown('<div class="login-container">', unsafe_allow_html=True)
-        st.markdown('<p class="welcome-text">Welcome Back!</p>', unsafe_allow_html=True)
+        st.markdown('<p class="welcome-text">Login to Your Account</p>', unsafe_allow_html=True)
         u = st.text_input("User Name", key="user_input")
         p = st.text_input("Password", type="password", key="pass_input")
         if st.button("LOGIN", use_container_width=True):
@@ -65,16 +85,20 @@ if not st.session_state['is_logged_in']:
             else:
                 st.error("Login තොරතුරු වැරදියි!")
         st.markdown('</div>', unsafe_allow_html=True)
+        
+        # 3. PNG Image (පල්ලෙහායින්ම)
+        st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png", use_container_width=True)
 
-# 2. MAIN HUB SECTION
+# 2. MAIN HUB SECTION (Logged In)
 else:
+    st.sidebar.markdown('<div class="support-text">📞 Support: 0766 770 856</div>', unsafe_allow_html=True)
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
+    
     st.sidebar.markdown(f'<h2 style="color:#facc15; text-align:center;">VIEWS: {st.session_state["view_count"]:,}</h2>', unsafe_allow_html=True)
     if st.sidebar.button("LOGOUT", use_container_width=True):
         st.session_state['is_logged_in'] = False
         st.rerun()
 
-    # දිග ලින්ක් එක Syntax Error නොවන්නට කෑලි කර ඇත
     quiz_url = "https://sciencetist-question-hknjybq5xxdcmrhcjahqol" + ".streamlit.app/"
 
     CATEGORIES = {
