@@ -18,7 +18,7 @@ if 'is_logged_in' not in st.session_state:
 if 'user_comments' not in st.session_state:
     st.session_state['user_comments'] = []
 
-# --- ලින්ක් දත්ත (ඔබේ නියම ලින්ක් එක ඇතුළත් කර ඇත) ---
+# --- ලින්ක් දත්ත ---
 CATEGORIES = {
     "🔢 ගණිතය සහ විද්‍යාව (Maths & Science)": [
         {"name": "Geometry Dance", "url": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "icon": "📐"},
@@ -39,7 +39,6 @@ CATEGORIES = {
         {"name": "BMI Manager", "url": "https://bmimannew.streamlit.app/#8b1d9de1", "icon": "⚖️"}
     ],
     "🎮 ප්‍රහේලිකා සහ ක්‍රීඩා (Puzzles & Games)": [
-        # මෙන්න ඔබේ නියම Water Game ලින්ක් එක
         {"name": "Water Fraction Game", "url": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "icon": "🥤"},
         {"name": "සංඛ්‍යා ගැටුම (Math Combat)", "url": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "icon": "⚔️"},
         {"name": "3D App Best", "url": "https://3dappbest.streamlit.app/", "icon": "🧊"},
@@ -62,4 +61,13 @@ st.markdown("""
     .main-title { text-align: center; color: #ff4b4b; font-size: 45px; font-weight: 800; margin-bottom: 20px; }
     .sub-title { text-align: center; color: #cbd5e1; font-size: 18px; margin-bottom: 40px; }
     .category-header { background-color: #1e293b; padding: 10px 20px; border-radius: 8px; color: #facc15; font-size: 20px; font-weight: bold; margin-top: 30px; border-left: 5px solid #ff4b4b; }
-    .ad-card { background: #1e293b; border: 1px solid #334155;
+    .ad-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 10px; text-align: center; }
+    .comment-card { background: #1e293b; padding: 10px; border-radius: 8px; margin-bottom: 5px; border-left: 3px solid #facc15; color: #cbd5e1; }
+    .login-container { background: #1e293b; padding: 30px; border-radius: 15px; border: 1px solid #334155; }
+</style>
+""", unsafe_allow_html=True)
+
+# --- APP FLOW ---
+if not st.session_state['is_logged_in']:
+    st.markdown('<h1 class="main-title">ISURUSOFT PORTAL</h1>', unsafe_allow_html=True)
+    col_img, col_form = st.columns([1.2,
