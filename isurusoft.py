@@ -26,7 +26,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 1. LOGIN පරීක්ෂා කිරීම
+# 1. LOGIN පරීක්ෂාව
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">ISURUSOFT PORTAL</h1>', unsafe_allow_html=True)
     col_img, col_form = st.columns([1.2, 1], gap="large")
@@ -41,13 +41,13 @@ if not st.session_state['is_logged_in']:
                 st.session_state['is_logged_in'] = True
                 st.rerun()
             else:
-                st.error("වැරදියි!")
+                st.error("Login තොරතුරු වැරදියි!")
         st.markdown('</div>', unsafe_allow_html=True)
 
-# 2. LOGIN වූ පසු පෙන්වන කොටස
+# 2. LOGIN වූ පසු පෙන්වන සම්පූර්ණ දත්ත
 else:
     CATEGORIES = {
-        "🔢 ගණිතය සහ විද්‍යාව": [
+        "🔢 ගණිතය සහ විද්‍යාව (Maths & Science)": [
             {"name": "Geometry Dance", "url": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "icon": "📐"},
             {"name": "Graph Art 2", "url": "https://nicegrap2.streamlit.app/", "icon": "🎨"},
             {"name": "Periodic Table", "url": "https://prtable.streamlit.app/", "icon": "🧪"},
@@ -57,7 +57,7 @@ else:
             {"name": "Graph 1", "url": "https://graph-1-4e7bbfbpkg9aw5uvxp9yc6.streamlit.app/", "icon": "📊"},
             {"name": "Maths 680", "url": "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/", "icon": "🎓"}
         ],
-        "📚 භාෂාව සහ පොදු දැනුම": [
+        "📚 භාෂාව සහ පොදු දැනුම (Language & Knowledge)": [
             {"name": "IsuruSoft Portal", "url": "https://isurusoft.streamlit.app/", "icon": "🌐"},
             {"name": "Rachana 2", "url": "https://rachana-2new.streamlit.app/", "icon": "✍️"},
             {"name": "Grade 5 Sinhala", "url": "https://grade5sinhalanew.streamlit.app/", "icon": "📚"},
@@ -65,31 +65,39 @@ else:
             {"name": "Budda Darmaya", "url": "https://budda-darmaya-1.streamlit.app/", "icon": "☸️"},
             {"name": "BMI Manager", "url": "https://bmimannew.streamlit.app/", "icon": "⚖️"}
         ],
-        "🎮 ප්‍රහේලිකා සහ ක්‍රීඩා": [
-            {"name": "Water Fraction", "url": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "icon": "🥤"},
-            {"name": "Sankya Gatuma", "url": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "icon": "⚔️"},
+        "🎮 ප්‍රහේලිකා සහ ක්‍රීඩා (Puzzles & Games)": [
+            {"name": "Water Fraction Game", "url": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "icon": "🥤"},
+            {"name": "සංඛ්‍යා ගැටුම (Math Combat)", "url": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "icon": "⚔️"},
             {"name": "3D App Best", "url": "https://3dappbest.streamlit.app/", "icon": "🧊"},
+            {"name": "Sankya Dadayama", "url": "https://sankyadadayamanew2.streamlit.app/", "icon": "🎯"},
             {"name": "Maths Puzzle", "url": "https://mathspuzzle1.streamlit.app/", "icon": "🧩"},
+            {"name": "Real Puzzle 1", "url": "https://real-puzzle-1-csyvarjphxh9z9tndnj4ff.streamlit.app/", "icon": "🎮"},
+            {"name": "Answer to Ques", "url": "https://anser-to-ques2-c9yurtmondfbzjcpoxguwn.streamlit.app/", "icon": "💡"},
             {"name": "Therawili", "url": "https://therawili-gzggdyxieygqhaifx6jp8k.streamlit.app/", "icon": "🕵️"},
+            {"name": "Money Converter", "url": "https://mony-converter-zhtsej33cdvttrtwqhle4q.streamlit.app/", "icon": "💱"},
+            {"name": "Shape Converter", "url": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "icon": "🔄"},
+            {"name": "4 Box Game", "url": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc.streamlit.app/", "icon": "📦"},
             {"name": "Tetris Maths", "url": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "icon": "🕹️"}
         ],
         "🌍 General Knowledge": [
-            {"name": "විද්‍යාඥයින් Quiz", "url": "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.app/", "icon": "🔬"}
+            {"name": "විද්‍යාඥයින් කවුද? Quiz", "url": "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.app/", "icon": "🔬"}
         ]
     }
 
     st.markdown('<h1 class="main-title">ISURUSOFT EDUCATIONAL HUB</h1>', unsafe_allow_html=True)
-    st.sidebar.markdown(f"## VIEWS: {st.session_state['view_count']}")
-    if st.sidebar.button("LOGOUT"):
+    st.markdown('<p class="sub-title">අනාගත පරපුර වෙනුවෙන් තැනූ අධ්‍යාපනික මෙවලම් කට්ටලය</p>', unsafe_allow_html=True)
+    
+    st.sidebar.markdown(f'<h2 style="color:#facc15; text-align:center;">VIEWS: {st.session_state["view_count"]:,}</h2>', unsafe_allow_html=True)
+    if st.sidebar.button("LOGOUT", use_container_width=True):
         st.session_state['is_logged_in'] = False
         st.rerun()
 
-    for cat, links in CATEGORIES.items():
-        st.markdown(f'<div class="category-header">{cat}</div>', unsafe_allow_html=True)
+    for cat_name, links in CATEGORIES.items():
+        st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
         cols = st.columns(3)
-        for i, link in enumerate(links):
+        for i, item in enumerate(links):
             with cols[i % 3]:
-                st.link_button(f"{link['icon']} {link['name']}", link['url'], use_container_width=True)
+                st.link_button(f"{item['icon']} {item['name']}", item['url'], use_container_width=True)
 
     st.markdown("---")
     st.caption("© 2025 IsuruSoft Web Solutions")
