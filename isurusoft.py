@@ -20,27 +20,32 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling ---
+# --- CSS Styling (Zoom button එක අයින් කිරීමට අලුත් CSS එකතු කළා) ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
+    
+    /* ඉමේජ් එක උඩ තියෙන Zoom බටන් එක අයින් කිරීම */
+    button[title="Enlarge image"] {
+        display: none !important;
+    }
+    
     .main-title { 
         text-align: center; color: #ff0000 !important; font-size: 32px; 
         font-weight: 800; margin-bottom: 30px; text-shadow: 1px 1px 2px #000000;
     }
     .login-box {
-        background: #1e293b; padding: 25px; border-radius: 15px; 
-        border: 1px solid #334155; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        background: #1e293b; padding: 30px; border-radius: 15px; 
+        border: 1px solid #334155; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
-    .price-card {
-        background: #1e293b; padding: 15px; border-radius: 12px; 
-        border: 1px solid #facc15; text-align: center; margin-top: 20px;
+    .get-member {
+        margin-top: 20px; padding-top: 15px; border-top: 1px solid #334155;
+        text-align: center;
     }
-    .pay-btn-flat {
-        background-color: #28a745; color: white !important;
-        padding: 8px 15px; border-radius: 5px; text-decoration: none;
-        font-weight: bold; display: block; width: 100%; margin-top: 10px;
-        font-size: 16px; text-align: center;
+    .pay-link {
+        color: #28a745 !important; font-weight: bold; text-decoration: none;
+        font-size: 16px; border: 1px solid #28a745; padding: 5px 10px;
+        border-radius: 5px; display: inline-block; margin-top: 5px;
     }
     .support-text {
         color: #ffffff; background-color: #ff0000; padding: 10px;
@@ -53,35 +58,37 @@ st.markdown("""
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
     
-    col1, col2 = st.columns([1.2, 1], gap="large")
+    col1, col2 = st.columns([1.3, 1], gap="large")
     
     with col1:
+        # Image එක පෙන්වීම (Zoom button එක CSS මඟින් ඉවත් කර ඇත)
         st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png", use_container_width=True)
         
     with col2:
-        # Login Box
         st.markdown('<div class="login-box">', unsafe_allow_html=True)
-        st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 15px 0;">Member Login</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="color:#facc15; text-align:center; margin-top:0;">Member Login</h3>', unsafe_allow_html=True)
+        
         u = st.text_input("User Name", key="u_name")
         p = st.text_input("Password", type="password", key="p_word")
+        
         if st.button("LOGIN NOW", use_container_width=True):
             if u in USERS and USERS[u] == p:
                 st.session_state['is_logged_in'] = True
                 st.rerun()
             else:
                 st.error("නම හෝ මුද්‍රාපදය වැරදියි!")
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        # Membership Section
+        
+        # Membership Info
         st.markdown(f'''
-            <div class="price-card">
-                <p style="color:#ffffff; margin:0; font-weight:bold; font-size:14px;">💎 LIFETIME ACCESS - Rs. 1,000/=</p>
-                <a href="https://wa.me/94750211899?text=I%20want%20to%20get%20South%20Vision%20Membership" class="pay-btn-flat">
-                    GET MEMBERSHIP NOW
+            <div class="get-member">
+                <p style="color:#cbd5e1; font-size:13px; margin-bottom:5px;">Don't have an account?</p>
+                <p style="color:#ffffff; font-weight:bold; margin-bottom:10px;">LIFETIME ACCESS - Rs. 1,000/=</p>
+                <a href="https://wa.me/94750211899?text=I%20want%20to%20get%20South%20Vision%20Membership" class="pay-link">
+                    GET MEMBERSHIP
                 </a>
-                <p style="color:#94a3b8; font-size:11px; margin-top:8px;">සියලුම ක්‍රීඩා සහ පාඩම් සඳහා ජීවිත කාලයටම ප්‍රවේශය.</p>
             </div>
         ''', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
 # 2. MAIN HUB SECTION
 else:
@@ -95,7 +102,6 @@ else:
 
     quiz_url = "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.app/"
 
-    # --- CATEGORIES (All links fixed) ---
     CATEGORIES = {
         "🔢 ගණිතය සහ විද්‍යාව": [
             {"n": "Geometry Dance", "u": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "i": "📐"},
@@ -137,8 +143,8 @@ else:
     for cat_name, links in CATEGORIES.items():
         st.markdown(f'<div style="background-color: #1e293b; padding: 8px 15px; border-radius: 8px; color: #facc15; font-size: 17px; font-weight: bold; margin-top: 20px; border-left: 5px solid #ff0000;">{cat_name}</div>', unsafe_allow_html=True)
         cols = st.columns(3)
-        for i, item in enumerate(links):
-            with cols[i % 3]:
+        for j, item in enumerate(links):
+            with cols[j % 3]:
                 st.link_button(f"{item['i']} {item['n']}", item['u'], use_container_width=True)
 
 # Footer
