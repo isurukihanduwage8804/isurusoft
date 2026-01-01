@@ -20,14 +20,16 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (Zoom button එක අයින් කිරීමට අලුත් CSS එකතු කළා) ---
+# --- CSS Styling ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
     
-    /* ඉමේජ් එක උඩ තියෙන Zoom බටන් එක අයින් කිරීම */
-    button[title="Enlarge image"] {
-        display: none !important;
+    /* ඉමේජ් එක සම්පූර්ණ පළලට පෙන්වීම සහ Zoom බටන් පාලනය */
+    .img-container img {
+        width: 100%;
+        border-radius: 10px;
+        display: block;
     }
     
     .main-title { 
@@ -61,8 +63,12 @@ if not st.session_state['is_logged_in']:
     col1, col2 = st.columns([1.3, 1], gap="large")
     
     with col1:
-        # Image එක පෙන්වීම (Zoom button එක CSS මඟින් ඉවත් කර ඇත)
-        st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png", use_container_width=True)
+        # st.image වෙනුවට HTML පාවිච්චි කරලා Zoom එක අයින් කළා
+        st.markdown('''
+            <div class="img-container">
+                <img src="https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png">
+            </div>
+        ''', unsafe_allow_html=True)
         
     with col2:
         st.markdown('<div class="login-box">', unsafe_allow_html=True)
@@ -78,7 +84,6 @@ if not st.session_state['is_logged_in']:
             else:
                 st.error("නම හෝ මුද්‍රාපදය වැරදියි!")
         
-        # Membership Info
         st.markdown(f'''
             <div class="get-member">
                 <p style="color:#cbd5e1; font-size:13px; margin-bottom:5px;">Don't have an account?</p>
@@ -143,8 +148,8 @@ else:
     for cat_name, links in CATEGORIES.items():
         st.markdown(f'<div style="background-color: #1e293b; padding: 8px 15px; border-radius: 8px; color: #facc15; font-size: 17px; font-weight: bold; margin-top: 20px; border-left: 5px solid #ff0000;">{cat_name}</div>', unsafe_allow_html=True)
         cols = st.columns(3)
-        for j, item in enumerate(links):
-            with cols[j % 3]:
+        for i, item in enumerate(links):
+            with cols[i % 3]:
                 st.link_button(f"{item['i']} {item['n']}", item['u'], use_container_width=True)
 
 # Footer
