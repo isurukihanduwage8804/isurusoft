@@ -51,6 +51,10 @@ CATEGORIES = {
         {"name": "Shape Converter", "url": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "icon": "🔄"},
         {"name": "4 Box Game", "url": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc.streamlit.app/", "icon": "📦"},
         {"name": "Tetris Maths", "url": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "icon": "🕹️"}
+    ],
+    "🌍 General Knowledge": [
+        # ඔබට අවශ්‍ය General Knowledge ලින්ක් මෙතැනට ඇතුළත් කළ හැක
+        {"name": "GK Quiz 1", "url": "#", "icon": "📝"},
     ]
 }
 
