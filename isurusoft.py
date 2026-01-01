@@ -20,51 +20,49 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (විශේෂයෙන්ම අනවශ්‍ය කොටු ඉවත් කිරීමට) ---
+# --- CSS Styling (අනවශ්‍ය හිස් කොටු අයින් කිරීමට) ---
 st.markdown("""
 <style>
-    /* මුළු ඇප් එකේම පසුබිම */
     .stApp { background-color: #0f172a; }
 
-    /* Streamlit වල ස්වයංක්‍රීයව එන හැම Border එකක්ම අයින් කිරීම */
-    div[data-testid="stVerticalBlock"] > div {
-        border: none !important;
-    }
-    
-    /* පින්තූරයේ Zoom සහ කොටු අයින් කිරීම */
+    /* පින්තූරයේ Zoom සහ අනවශ්‍ය දේ අයින් කිරීම */
     .img-container img {
         width: 100%;
         border-radius: 10px;
         pointer-events: none;
     }
 
+    /* Streamlit ගේ හිස් Container සහ Padding සම්පූර්ණයෙන්ම අයින් කිරීම */
+    [data-testid="stVerticalBlock"] > div:empty {
+        display: none !important;
+    }
+    
+    .block-container {
+        padding-top: 2rem !important;
+    }
+
     /* ලොගින් කොටුවේ පෙනුම */
     .login-box {
         background: #1e293b; 
-        padding: 30px; 
+        padding: 25px; 
         border-radius: 15px; 
-        border: 1px solid #334155 !important; 
+        border: 1px solid #334155; 
         box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
-
-    /* මාතෘකාවලට එන ස්වයංක්‍රීය Borders අයින් කිරීම */
-    h1, h2, h3 {
-        border-bottom: none !important;
     }
 
     .main-title { 
         text-align: center; color: #ff0000 !important; font-size: 32px; 
-        font-weight: 800; margin-bottom: 20px; text-shadow: 1px 1px 2px #000000;
+        font-weight: 800; margin-bottom: 25px; text-shadow: 1px 1px 2px #000000;
     }
 
     .get-member {
-        margin-top: 20px; padding-top: 15px; border-top: 1px solid #334155;
+        margin-top: 15px; padding-top: 15px; border-top: 1px solid #334155;
         text-align: center;
     }
     
     .pay-link {
         color: #28a745 !important; font-weight: bold; text-decoration: none;
-        font-size: 16px; border: 1px solid #28a745; padding: 5px 10px;
+        font-size: 15px; border: 1px solid #28a745; padding: 5px 10px;
         border-radius: 5px; display: inline-block; margin-top: 5px;
     }
 
@@ -79,18 +77,19 @@ st.markdown("""
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
     
-    col1, col2 = st.columns([1.3, 1], gap="large")
+    # මෙතන columns දෙක විතරක් පාවිච්චි කරමු
+    col1, col2 = st.columns([1.3, 1], gap="medium")
     
     with col1:
         st.markdown('<div class="img-container"><img src="https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png"></div>', unsafe_allow_html=True)
         
     with col2:
-        # ලොගින් බොක්ස් එක ආරම්භය
+        # ලොගින් බොක්ස් එක පටන් ගැන්ම (HTML ඇතුළේම input ටික දැම්මොත් Streamlit errors දෙනවා, ඒ නිසා wrapper එකක් විතරක් පාවිච්චි කරමු)
         st.markdown('<div class="login-box">', unsafe_allow_html=True)
-        st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 20px 0;">Member Login</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 15px 0; border:none;">Member Login</h3>', unsafe_allow_html=True)
         
-        u = st.text_input("User Name", key="u_name")
-        p = st.text_input("Password", type="password", key="p_word")
+        u = st.text_input("User Name", key="u_name", label_visibility="visible")
+        p = st.text_input("Password", type="password", key="p_word", label_visibility="visible")
         
         if st.button("LOGIN NOW", use_container_width=True):
             if u in USERS and USERS[u] == p:
@@ -102,8 +101,8 @@ if not st.session_state['is_logged_in']:
         # Membership Info
         st.markdown(f'''
             <div class="get-member">
-                <p style="color:#cbd5e1; font-size:13px; margin-bottom:5px;">Don't have an account?</p>
-                <p style="color:#ffffff; font-weight:bold; margin-bottom:10px;">LIFETIME ACCESS - Rs. 1,000/=</p>
+                <p style="color:#cbd5e1; font-size:12px; margin-bottom:5px;">Don't have an account?</p>
+                <p style="color:#ffffff; font-weight:bold; margin-bottom:10px; font-size:14px;">LIFETIME ACCESS - Rs. 1,000/=</p>
                 <a href="https://wa.me/94750211899?text=I%20want%20to%20get%20South%20Vision%20Membership" class="pay-link">
                     GET MEMBERSHIP
                 </a>
