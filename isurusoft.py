@@ -13,7 +13,7 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling ---
+# --- CSS Styling (අනවශ්‍ය කොටු ඉවත් කර පෙනුම ඔප මට්ටම් කර ඇත) ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
@@ -23,11 +23,10 @@ st.markdown("""
         color: #ff0000 !important; 
         font-size: 28px; 
         font-weight: 800; 
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         text-shadow: 1px 1px 2px #000000;
     }
     
-    /* ලියන කොටු වල අකුරු කළු පාට කිරීම */
     input { color: #000000 !important; }
     
     .login-container { 
@@ -35,17 +34,28 @@ st.markdown("""
         padding: 20px; 
         border-radius: 12px; 
         border: 1px solid #334155;
-        margin-top: 10px;
     }
     
     .support-text {
         color: #ffffff;
         background-color: #ff0000;
-        padding: 8px;
+        padding: 10px;
         border-radius: 5px;
         text-align: center;
         font-weight: bold;
         font-size: 15px;
+        margin-bottom: 15px;
+    }
+
+    .category-header { 
+        background-color: #1e293b; 
+        padding: 8px 15px; 
+        border-radius: 8px; 
+        color: #facc15; 
+        font-size: 17px; 
+        font-weight: bold; 
+        margin-top: 25px; 
+        border-left: 5px solid #ff0000; 
     }
 
     button[title="View fullscreen"] { display: none !important; }
@@ -59,22 +69,25 @@ if not st.session_state['is_logged_in']:
     _, center_col, _ = st.columns([1, 2, 1])
     
     with center_col:
-        # --- පින්තූරය ඉහළින්ම ---
+        # --- පින්තූරය ---
         st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png", use_container_width=True)
         
-        # --- ඒකට පල්ලෙහායින් Support සහ Login ---
+        # --- Customer Support ---
         st.markdown('<div class="support-text">📞 Customer Support: 0766 770 856</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="login-container">', unsafe_allow_html=True)
-        u = st.text_input("User Name", placeholder="Enter Username")
-        p = st.text_input("Password", type="password", placeholder="Enter Password")
-        if st.button("LOGIN", use_container_width=True):
-            if u == "isurusoft" and p == "123456":
-                st.session_state['is_logged_in'] = True
-                st.rerun()
-            else:
-                st.error("Login තොරතුරු වැරදියි!")
-        st.markdown('</div>', unsafe_allow_html=True)
+        # --- Login Box (අර හිස් කොටුව අයින් කර ඇත) ---
+        with st.form("login_form"):
+            st.markdown('<p style="color:#facc15; font-weight:bold;">Login to Your Account</p>', unsafe_allow_html=True)
+            u = st.text_input("User Name", placeholder="Enter Username")
+            p = st.text_input("Password", type="password", placeholder="Enter Password")
+            submit = st.form_submit_button("LOGIN", use_container_width=True)
+            
+            if submit:
+                if u == "isurusoft" and p == "123456":
+                    st.session_state['is_logged_in'] = True
+                    st.rerun()
+                else:
+                    st.error("Login තොරතුරු වැරදියි!")
 
 # 2. MAIN HUB SECTION (Logged In)
 else:
@@ -127,9 +140,11 @@ else:
     }
 
     for cat_name, links in CATEGORIES.items():
-        st.sidebar.markdown(f'<div style="color:#facc15; font-weight:bold; margin-top:10px;">{cat_name}</div>', unsafe_allow_html=True)
-        # මෙහි ලින්ක්ස් ටික පෙන්වන කොටස කලින් පරිදිම පවතී
-        for item in links:
-            st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
-            cols = st.columns(3)
-            # (Note: Hub display logic simplified for clarity here, but functions same as before)
+        st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
+        cols = st.columns(3)
+        for i, item in enumerate(links):
+            with cols[i % 3]:
+                st.link_button(f"{item['i']} {item['n']}", item['u'], use_container_width=True)
+
+    st.markdown("---")
+    st.caption("© 2026 South Vision Web Solutions")
