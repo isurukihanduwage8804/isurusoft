@@ -15,9 +15,6 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-if 'user_comments' not in st.session_state:
-    st.session_state['user_comments'] = []
-
 # --- CSS Styling ---
 st.markdown("""
 <style>
@@ -25,12 +22,9 @@ st.markdown("""
     .main-title { text-align: center; color: #ff4b4b; font-size: 45px; font-weight: 800; margin-bottom: 20px; }
     .sub-title { text-align: center; color: #cbd5e1; font-size: 18px; margin-bottom: 40px; }
     .category-header { background-color: #1e293b; padding: 10px 20px; border-radius: 8px; color: #facc15; font-size: 20px; font-weight: bold; margin-top: 30px; border-left: 5px solid #ff4b4b; }
-    .comment-card { background: #1e293b; padding: 10px; border-radius: 8px; margin-bottom: 5px; border-left: 3px solid #facc15; color: #cbd5e1; }
     .login-container { background: #1e293b; padding: 30px; border-radius: 15px; border: 1px solid #334155; }
 </style>
 """, unsafe_allow_html=True)
-
-# --- APP FLOW ---
 
 # 1. LOGIN පරීක්ෂා කිරීම
 if not st.session_state['is_logged_in']:
@@ -40,22 +34,20 @@ if not st.session_state['is_logged_in']:
         st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.jpg", use_container_width=True)
     with col_form:
         st.markdown('<div class="login-container">', unsafe_allow_html=True)
-        st.markdown('<p style="color:#facc15; font-size:18px; font-weight:bold;">Welcome Back!</p>', unsafe_allow_html=True)
-        u = st.text_input("User Name", key="user_input", placeholder="Enter username")
-        p = st.text_input("Password", type="password", key="pass_input", placeholder="Enter password")
+        u = st.text_input("User Name", key="user_input")
+        p = st.text_input("Password", type="password", key="pass_input")
         if st.button("LOGIN", use_container_width=True):
             if u == "isurusoft" and p == "123456":
                 st.session_state['is_logged_in'] = True
                 st.rerun()
             else:
-                st.error("වැරදි තොරතුරු ඇතුළත් කළා!")
+                st.error("වැරදියි!")
         st.markdown('</div>', unsafe_allow_html=True)
 
 # 2. LOGIN වූ පසු පෙන්වන කොටස
 else:
-    # --- ලින්ක් දත්ත (Login වූ පසු පමණක් ක්‍රියාත්මක වේ) ---
     CATEGORIES = {
-        "🔢 ගණිතය සහ විද්‍යාව (Maths & Science)": [
+        "🔢 ගණිතය සහ විද්‍යාව": [
             {"name": "Geometry Dance", "url": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "icon": "📐"},
             {"name": "Graph Art 2", "url": "https://nicegrap2.streamlit.app/", "icon": "🎨"},
             {"name": "Periodic Table", "url": "https://prtable.streamlit.app/", "icon": "🧪"},
@@ -65,24 +57,39 @@ else:
             {"name": "Graph 1", "url": "https://graph-1-4e7bbfbpkg9aw5uvxp9yc6.streamlit.app/", "icon": "📊"},
             {"name": "Maths 680", "url": "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/", "icon": "🎓"}
         ],
-        "📚 භාෂාව සහ පොදු දැනුම (Language & Knowledge)": [
+        "📚 භාෂාව සහ පොදු දැනුම": [
             {"name": "IsuruSoft Portal", "url": "https://isurusoft.streamlit.app/", "icon": "🌐"},
             {"name": "Rachana 2", "url": "https://rachana-2new.streamlit.app/", "icon": "✍️"},
             {"name": "Grade 5 Sinhala", "url": "https://grade5sinhalanew.streamlit.app/", "icon": "📚"},
             {"name": "Word Meaning", "url": "https://word-meaning-ndkg9veahhahsqweqimcrz.streamlit.app/", "icon": "📖"},
             {"name": "Budda Darmaya", "url": "https://budda-darmaya-1.streamlit.app/", "icon": "☸️"},
-            {"name": "BMI Manager", "url": "https://bmimannew.streamlit.app/#8b1d9de1", "icon": "⚖️"}
+            {"name": "BMI Manager", "url": "https://bmimannew.streamlit.app/", "icon": "⚖️"}
         ],
-        "🎮 ප්‍රහේලිකා සහ ක්‍රීඩා (Puzzles & Games)": [
-            {"name": "Water Fraction Game", "url": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "icon": "🥤"},
-            {"name": "සංඛ්‍යා ගැටුම (Math Combat)", "url": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "icon": "⚔️"},
+        "🎮 ප්‍රහේලිකා සහ ක්‍රීඩා": [
+            {"name": "Water Fraction", "url": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "icon": "🥤"},
+            {"name": "Sankya Gatuma", "url": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "icon": "⚔️"},
             {"name": "3D App Best", "url": "https://3dappbest.streamlit.app/", "icon": "🧊"},
-            {"name": "Sankya Dadayama", "url": "https://sankyadadayamanew2.streamlit.app/", "icon": "🎯"},
             {"name": "Maths Puzzle", "url": "https://mathspuzzle1.streamlit.app/", "icon": "🧩"},
-            {"name": "Real Puzzle 1", "url": "https://real-puzzle-1-csyvarjphxh9z9tndnj4ff.streamlit.app/", "icon": "🎮"},
-            {"name": "Answer to Ques", "url": "https://anser-to-ques2-c9yurtmondfbzjcpoxguwn.streamlit.app/", "icon": "💡"},
             {"name": "Therawili", "url": "https://therawili-gzggdyxieygqhaifx6jp8k.streamlit.app/", "icon": "🕵️"},
-            {"name": "Money Converter", "url": "https://mony-converter-zhtsej33cdvttrtwqhle4q.streamlit.app/", "icon": "💱"},
-            {"name": "Shape Converter", "url": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "icon": "🔄"},
-            {"name": "4 Box Game", "url": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc.streamlit.app/", "icon": "📦"},
-            {"name": "Tetris Maths", "url": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.
+            {"name": "Tetris Maths", "url": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "icon": "🕹️"}
+        ],
+        "🌍 General Knowledge": [
+            {"name": "විද්‍යාඥයින් Quiz", "url": "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.app/", "icon": "🔬"}
+        ]
+    }
+
+    st.markdown('<h1 class="main-title">ISURUSOFT EDUCATIONAL HUB</h1>', unsafe_allow_html=True)
+    st.sidebar.markdown(f"## VIEWS: {st.session_state['view_count']}")
+    if st.sidebar.button("LOGOUT"):
+        st.session_state['is_logged_in'] = False
+        st.rerun()
+
+    for cat, links in CATEGORIES.items():
+        st.markdown(f'<div class="category-header">{cat}</div>', unsafe_allow_html=True)
+        cols = st.columns(3)
+        for i, link in enumerate(links):
+            with cols[i % 3]:
+                st.link_button(f"{link['icon']} {link['name']}", link['url'], use_container_width=True)
+
+    st.markdown("---")
+    st.caption("© 2025 IsuruSoft Web Solutions")
