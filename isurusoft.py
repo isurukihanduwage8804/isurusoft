@@ -13,17 +13,22 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling ---
+# --- CSS Styling (නම සහ Login Form එක පල්ලෙහාට ගැනීමට පරතරය වැඩි කළා) ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
     
+    /* මුළු පේජ් එකේම ඉහළින් ලොකු පරතරයක් තැබීම */
+    .block-container { 
+        padding-top: 5rem !important; 
+    }
+    
     .main-title { 
         text-align: center; 
         color: #ff0000 !important; 
-        font-size: 26px; 
+        font-size: 32px; 
         font-weight: 800; 
-        margin-bottom: 10px;
+        margin-bottom: 30px; /* නම සහ පල්ලෙහා කොටස් අතර පරතරය */
         text-shadow: 1px 1px 2px #000000;
     }
     
@@ -31,9 +36,10 @@ st.markdown("""
     
     .login-container { 
         background: #1e293b; 
-        padding: 20px; 
+        padding: 25px; 
         border-radius: 12px; 
         border: 1px solid #334155;
+        margin-top: 15px;
     }
     
     .support-text {
@@ -43,46 +49,41 @@ st.markdown("""
         border-radius: 5px;
         text-align: center;
         font-weight: bold;
-        font-size: 15px;
+        font-size: 16px;
         margin-bottom: 10px;
     }
 
-    .category-header { 
-        background-color: #1e293b; 
-        padding: 8px 15px; 
-        border-radius: 8px; 
-        color: #facc15; 
-        font-size: 17px; 
-        font-weight: bold; 
-        margin-top: 20px; 
-        border-left: 5px solid #ff0000; 
-    }
-
-    [data-testid="stVerticalBlock"] { gap: 0.2rem; }
-    .block-container { padding-top: 2rem; }
-
     button[title="View fullscreen"] { display: none !important; }
+    
+    /* Login Button එකේ පෙනුම */
+    .stButton>button {
+        margin-top: 10px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 # 1. LOGIN SECTION
 if not st.session_state['is_logged_in']:
+    # පේජ් එකේ ඉහළින්ම නම පෙන්වීම
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
     
-    col1, col2 = st.columns([1.2, 1], gap="medium")
+    # පින්තූරය සහ Login එක පේළියට (නමුත් තවත් පහළින්)
+    col1, col2 = st.columns([1.2, 1], gap="large")
     
     with col1:
+        # වම් පැත්තේ පින්තූරය
         st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png", use_container_width=True)
         
     with col2:
+        # දකුණු පැත්තේ Support සහ Login
         st.markdown('<div class="support-text">📞 Customer Support: 0766 770 856</div>', unsafe_allow_html=True)
         
         st.markdown('<div class="login-container">', unsafe_allow_html=True)
-        st.markdown('<p style="color:#facc15; font-weight:bold; margin-bottom:5px;">Login to Your Account</p>', unsafe_allow_html=True)
+        st.markdown('<p style="color:#facc15; font-weight:bold; font-size:18px; margin-bottom:15px;">Login to Your Account</p>', unsafe_allow_html=True)
         
         with st.form("login_form", clear_on_submit=False):
-            u = st.text_input("User Name", placeholder="Username", label_visibility="collapsed")
-            p = st.text_input("Password", type="password", placeholder="Password", label_visibility="collapsed")
+            u = st.text_input("User Name", placeholder="Enter Username", label_visibility="collapsed")
+            p = st.text_input("Password", type="password", placeholder="Enter Password", label_visibility="collapsed")
             submit = st.form_submit_button("LOGIN", use_container_width=True)
             
             if submit:
@@ -93,7 +94,7 @@ if not st.session_state['is_logged_in']:
                     st.error("Login තොරතුරු වැරදියි!")
         st.markdown('</div>', unsafe_allow_html=True)
 
-# 2. MAIN HUB SECTION
+# 2. MAIN HUB SECTION (Logged In)
 else:
     st.sidebar.markdown('<div class="support-text">📞 Support: 0766 770 856</div>', unsafe_allow_html=True)
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
@@ -144,7 +145,7 @@ else:
     }
 
     for cat_name, links in CATEGORIES.items():
-        st.markdown(f'<div class="category-header">{cat_name}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="category-header" style="background-color: #1e293b; padding: 8px 15px; border-radius: 8px; color: #facc15; font-size: 17px; font-weight: bold; margin-top: 20px; border-left: 5px solid #ff0000;">{cat_name}</div>', unsafe_allow_html=True)
         cols = st.columns(3)
         for i, item in enumerate(links):
             with cols[i % 3]:
