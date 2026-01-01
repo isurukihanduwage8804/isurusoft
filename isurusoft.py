@@ -5,13 +5,13 @@ import random
 st.set_page_config(page_title="සවුත් විෂන් වෙබ් තක්සලාව", page_icon="🎓", layout="wide")
 
 # =========================================================
-# යූසර්ලා කළමනාකරණය (ඔයාට අලුත් යූසර්ලා මෙතනට එකතු කරන්න පුළුවන්)
+# යූසර්ලා කළමනාකරණය
 # =========================================================
 USERS = {
     "isurusoft": "123456",
 }
 
-# --- Session State (View count සහ Login තත්ත්වය පවත්වා ගැනීමට) ---
+# --- Session State ---
 if 'view_count' not in st.session_state:
     st.session_state['view_count'] = 50240 
 if 'counted' not in st.session_state:
@@ -20,7 +20,7 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (පෙනුම ලස්සන කිරීමට) ---
+# --- CSS Styling (විශේෂයෙන් බටන් එක පැතලි කිරීමට වෙනස් කළා) ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
@@ -33,14 +33,17 @@ st.markdown("""
         border: 1px solid #334155; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     .price-card {
-        background: #1e293b; padding: 25px; border-radius: 15px; 
-        border: 2px solid #facc15; text-align: center; margin-top: 20px;
+        background: #1e293b; padding: 15px; border-radius: 12px; 
+        border: 1px solid #facc15; text-align: center; margin-top: 20px;
     }
-    .pay-btn {
+    .pay-btn-flat {
         background-color: #28a745; color: white !important;
-        padding: 15px 20px; border-radius: 8px; text-decoration: none;
-        font-weight: bold; display: inline-block; width: 100%; margin-top: 10px;
-        font-size: 18px;
+        padding: 8px 15px; border-radius: 5px; text-decoration: none;
+        font-weight: bold; display: block; width: 100%; margin-top: 10px;
+        font-size: 16px; transition: 0.3s; border: none;
+    }
+    .pay-btn-flat:hover {
+        background-color: #218838;
     }
     .support-text {
         color: #ffffff; background-color: #ff0000; padding: 10px;
@@ -49,7 +52,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 1. LOGIN SECTION (ලොග් වීමට පෙර පෙනෙන පිටුව)
+# 1. LOGIN SECTION
 if not st.session_state['is_logged_in']:
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
     
@@ -61,7 +64,7 @@ if not st.session_state['is_logged_in']:
     with col2:
         # Login Box
         st.markdown('<div class="login-box">', unsafe_allow_html=True)
-        st.markdown('<h3 style="color:#facc15; text-align:center;">Member Login</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 15px 0;">Member Login</h3>', unsafe_allow_html=True)
         u = st.text_input("User Name", key="u_name")
         p = st.text_input("Password", type="password", key="p_word")
         if st.button("LOGIN NOW", use_container_width=True):
@@ -72,19 +75,18 @@ if not st.session_state['is_logged_in']:
                 st.error("නම හෝ මුද්‍රාපදය වැරදියි!")
         st.markdown('</div>', unsafe_allow_html=True)
 
-        # Membership Card (පේමන්ට් විස්තර)
+        # පැතලි බටන් එක සහිත Membership Section
         st.markdown(f'''
             <div class="price-card">
-                <h4 style="color:#ffffff; margin:0; letter-spacing: 1px;">💎 LIFETIME MEMBERSHIP</h4>
-                <h1 style="color:#facc15; margin:15px 0; font-size: 40px;">Rs. 1,000/=</h1>
-                <p style="color:#cbd5e1; font-size:15px;">සියලුම අධ්‍යාපනික ක්‍රීඩා සහ පාඩම් සඳහා ජීවිත කාලයටම ප්‍රවේශය ලබා ගන්න.</p>
-                <a href="https://wa.me/94750211899?text=I%20want%20to%20get%20South%20Vision%20Membership" class="pay-btn">
-                    GET ACCESS NOW
+                <p style="color:#ffffff; margin:0; font-weight:bold; font-size:14px;">💎 LIFETIME ACCESS - Rs. 1,000/=</p>
+                <a href="https://wa.me/94750211899?text=I%20want%20to%20get%20South%20Vision%20Membership" class="pay-btn-flat">
+                    GET MEMBERSHIP NOW
                 </a>
+                <p style="color:#94a3b8; font-size:11px; margin-top:8px;">සියලුම ක්‍රීඩා සහ පාඩම් සඳහා ජීවිත කාලයටම ප්‍රවේශය.</p>
             </div>
         ''', unsafe_allow_html=True)
 
-# 2. MAIN HUB SECTION (සාර්ථකව ලොග් වූ පසු පෙනෙන පෝටල් එක)
+# 2. MAIN HUB SECTION
 else:
     st.sidebar.markdown('<div class="support-text">📞 Support: 075 021 1899</div>', unsafe_allow_html=True)
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
@@ -96,7 +98,6 @@ else:
 
     quiz_url = "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.app/"
 
-    # --- සියලුම ගේම්ස් ලින්ක් මෙතන තියෙනවා ---
     CATEGORIES = {
         "🔢 ගණිතය සහ විද්‍යාව": [
             {"n": "Geometry Dance", "u": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "i": "📐"},
@@ -135,19 +136,5 @@ else:
         ]
     }
 
-    # Categories ලස්සනට පෙන්වීම
     for cat_name, links in CATEGORIES.items():
-        st.markdown(f'<div style="background-color: #1e293b; padding: 8px 15px; border-radius: 8px; color: #facc15; font-size: 17px; font-weight: bold; margin-top: 20px; border-left: 5px solid #ff0000;">{cat_name}</div>', unsafe_allow_html=True)
-        cols = st.columns(3)
-        for i, item in enumerate(links):
-            with cols[i % 3]:
-                st.link_button(f"{item['i']} {item['n']}", item['u'], use_container_width=True)
-
-# Footer (සෑම පිටුවකම පල්ලෙහා පෙනෙන කොටස)
-st.markdown("---")
-st.markdown("""
-    <div style='text-align: center; color: #64748b; font-size: 13px;'>
-        © 2026 <b>South Vision Web Solutions</b><br>
-        Hotline: 075 021 1899
-    </div>
-""", unsafe_allow_html=True)
+        st.markdown(f'<div style="background-color: #1e293b; padding: 8px 15px; border-radius: 8px; color: #facc15; font-size
