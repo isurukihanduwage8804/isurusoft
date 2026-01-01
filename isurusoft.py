@@ -20,35 +20,50 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling ---
+# --- CSS Styling (වැඩි දියුණු කළ පෙනුම) ---
 st.markdown("""
 <style>
+    /* මුළු ඇප් එකේම පසුබිම */
     .stApp { background-color: #0f172a; }
-    
-    /* ඉමේජ් එක සම්පූර්ණ පළලට පෙන්වීම සහ Zoom බටන් පාලනය */
-    .img-container img {
+
+    /* පින්තූරයේ Zoom සහ කොටු අයින් කිරීම */
+    [data-testid="stMarkdownContainer"] img {
         width: 100%;
         border-radius: 10px;
-        display: block;
+        pointer-events: none; /* පින්තූරය ක්ලික් කිරීම වැළැක්වීමට */
     }
-    
+
+    /* ලොගින් කොටුවේ පෙනුම - උඩ කොටු ගතිය අයින් කළා */
+    .login-box {
+        background: #1e293b; 
+        padding: 30px; 
+        border-radius: 15px; 
+        border: 1px solid #334155; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        margin-top: 0px; /* උඩ පරතරය බින්දු කළා */
+    }
+
+    /* Streamlit ගේ ඉබේ එන Padding අයින් කිරීම */
+    .block-container {
+        padding-top: 2rem !important;
+    }
+
     .main-title { 
         text-align: center; color: #ff0000 !important; font-size: 32px; 
-        font-weight: 800; margin-bottom: 30px; text-shadow: 1px 1px 2px #000000;
+        font-weight: 800; margin-bottom: 20px; text-shadow: 1px 1px 2px #000000;
     }
-    .login-box {
-        background: #1e293b; padding: 30px; border-radius: 15px; 
-        border: 1px solid #334155; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
+
     .get-member {
         margin-top: 20px; padding-top: 15px; border-top: 1px solid #334155;
         text-align: center;
     }
+    
     .pay-link {
         color: #28a745 !important; font-weight: bold; text-decoration: none;
         font-size: 16px; border: 1px solid #28a745; padding: 5px 10px;
         border-radius: 5px; display: inline-block; margin-top: 5px;
     }
+
     .support-text {
         color: #ffffff; background-color: #ff0000; padding: 10px;
         border-radius: 5px; text-align: center; font-weight: bold;
@@ -63,16 +78,13 @@ if not st.session_state['is_logged_in']:
     col1, col2 = st.columns([1.3, 1], gap="large")
     
     with col1:
-        # st.image වෙනුවට HTML පාවිච්චි කරලා Zoom එක අයින් කළා
-        st.markdown('''
-            <div class="img-container">
-                <img src="https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png">
-            </div>
-        ''', unsafe_allow_html=True)
+        # HTML Image - මේකෙන් Zoom බටන් එක එන්නේ නැහැ
+        st.markdown('<div class="img-container"><img src="https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png"></div>', unsafe_allow_html=True)
         
     with col2:
+        # ලොගින් බොක්ස් එක ආරම්භය
         st.markdown('<div class="login-box">', unsafe_allow_html=True)
-        st.markdown('<h3 style="color:#facc15; text-align:center; margin-top:0;">Member Login</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 20px 0; border:none; padding:0;">Member Login</h3>', unsafe_allow_html=True)
         
         u = st.text_input("User Name", key="u_name")
         p = st.text_input("Password", type="password", key="p_word")
@@ -84,6 +96,7 @@ if not st.session_state['is_logged_in']:
             else:
                 st.error("නම හෝ මුද්‍රාපදය වැරදියි!")
         
+        # Membership Info
         st.markdown(f'''
             <div class="get-member">
                 <p style="color:#cbd5e1; font-size:13px; margin-bottom:5px;">Don't have an account?</p>
