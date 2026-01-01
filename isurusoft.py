@@ -52,7 +52,6 @@ st.markdown("""
         margin-bottom: 10px;
     }
 
-    /* Welcome Text එක සඳහා Styling */
     .welcome-box {
         color: #facc15;
         text-align: center;
@@ -81,7 +80,6 @@ if not st.session_state['is_logged_in']:
     with col2:
         st.markdown('<div class="support-text">📞 Customer Support: 0766 770 856</div>', unsafe_allow_html=True)
         
-        # --- අර හිස්ව තිබුණු කොටුව දැන් Welcome Text එක සහිතව ---
         st.markdown('<div class="welcome-box">Welcome</div>', unsafe_allow_html=True)
         
         st.markdown('<div class="login-container">', unsafe_allow_html=True)
@@ -113,4 +111,10 @@ else:
 
     CATEGORIES = {
         "🔢 ගණිතය සහ විද්‍යාව": [
-            {"n": "Geometry Dance", "u": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "i
+            {"n": "Geometry Dance", "u": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "i": "📐"},
+            {"n": "Graph Art 2", "u": "https://nicegrap2.streamlit.app/", "i": "🎨"},
+            {"n": "Periodic Table", "u": "https://prtable.streamlit.app/", "i": "🧪"},
+            {"n": "Angle Shape", "u": "https://angaleshape.streamlit.app/", "i": "📐"},
+            {"n": "Atom Animation", "u": "https://atomanimation.streamlit.app/", "i": "⚛️"},
+            {"n": "Grade 5 Maths", "u": "https://grade5maths.streamlit.app/", "i": "🔢"},
+            {"n": "Graph 1", "u": "https://graph-1-4e7bbfbpkg9aw5uvxp9yc6
