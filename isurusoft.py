@@ -20,7 +20,7 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (විශේෂයෙන් බටන් එක පැතලි කිරීමට වෙනස් කළා) ---
+# --- CSS Styling ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
@@ -40,10 +40,7 @@ st.markdown("""
         background-color: #28a745; color: white !important;
         padding: 8px 15px; border-radius: 5px; text-decoration: none;
         font-weight: bold; display: block; width: 100%; margin-top: 10px;
-        font-size: 16px; transition: 0.3s; border: none;
-    }
-    .pay-btn-flat:hover {
-        background-color: #218838;
+        font-size: 16px; transition: 0.3s; text-align: center;
     }
     .support-text {
         color: #ffffff; background-color: #ff0000; padding: 10px;
@@ -62,7 +59,6 @@ if not st.session_state['is_logged_in']:
         st.image("https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png", use_container_width=True)
         
     with col2:
-        # Login Box
         st.markdown('<div class="login-box">', unsafe_allow_html=True)
         st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 15px 0;">Member Login</h3>', unsafe_allow_html=True)
         u = st.text_input("User Name", key="u_name")
@@ -75,7 +71,6 @@ if not st.session_state['is_logged_in']:
                 st.error("නම හෝ මුද්‍රාපදය වැරදියි!")
         st.markdown('</div>', unsafe_allow_html=True)
 
-        # පැතලි බටන් එක සහිත Membership Section
         st.markdown(f'''
             <div class="price-card">
                 <p style="color:#ffffff; margin:0; font-weight:bold; font-size:14px;">💎 LIFETIME ACCESS - Rs. 1,000/=</p>
@@ -112,29 +107,4 @@ else:
         "📚 භාෂාව සහ දැනුම": [
             {"n": "IsuruSoft Portal", "u": "https://isurusoft.streamlit.app/", "i": "🌐"},
             {"n": "Rachana 2", "u": "https://rachana-2new.streamlit.app/", "i": "✍️"},
-            {"n": "Grade 5 Sinhala", "u": "https://grade5sinhalanew.streamlit.app/", "i": "📚"},
-            {"n": "Word Meaning", "u": "https://word-meaning-ndkg9veahhahsqweqimcrz.streamlit.app/", "i": "📖"},
-            {"n": "Budda Darmaya", "u": "https://budda-darmaya-1.streamlit.app/", "i": "☸️"},
-            {"n": "BMI Manager", "u": "https://bmimannew.streamlit.app/", "i": "⚖️"}
-        ],
-        "🎮 ක්‍රීඩා සහ ප්‍රහේලිකා": [
-            {"n": "Water Fraction", "u": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "i": "🥤"},
-            {"n": "Math Combat", "u": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "i": "⚔️"},
-            {"n": "3D App Best", "u": "https://3dappbest.streamlit.app/", "i": "🧊"},
-            {"n": "Sankya Dadayama", "u": "https://sankyadadayamanew2.streamlit.app/", "i": "🎯"},
-            {"n": "Maths Puzzle", "u": "https://mathspuzzle1.streamlit.app/", "i": "🧩"},
-            {"n": "Real Puzzle 1", "u": "https://real-puzzle-1-csyvarjphxh9z9tndnj4ff.streamlit.app/", "i": "🎮"},
-            {"n": "Answer to Ques", "u": "https://anser-to-ques2-c9yurtmondfbzjcpoxguwn.streamlit.app/", "i": "💡"},
-            {"n": "Therawili", "u": "https://therawili-gzggdyxieygqhaifx6jp8k.streamlit.app/", "i": "🕵️"},
-            {"n": "Money Converter", "u": "https://mony-converter-zhtsej33cdvttrtwqhle4q.streamlit.app/", "i": "💱"},
-            {"n": "Shape Converter", "u": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "i": "🔄"},
-            {"n": "4 Box Game", "u": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc.streamlit.app/", "i": "📦"},
-            {"n": "Tetris Maths", "u": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "i": "🕹️"}
-        ],
-        "🌍 සාමාන්‍ය දැනීම": [
-            {"n": "විද්‍යාඥයින් කවුද?", "u": quiz_url, "i": "🔬"}
-        ]
-    }
-
-    for cat_name, links in CATEGORIES.items():
-        st.markdown(f'<div style="background-color: #1e293b; padding: 8px 15px; border-radius: 8px; color: #facc15; font-size
+            {"n":
