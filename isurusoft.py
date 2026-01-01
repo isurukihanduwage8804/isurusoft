@@ -13,17 +13,21 @@ if 'counted' not in st.session_state:
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
-# --- CSS Styling (රතු පාට සහ කුඩා අකුරු) ---
+# --- CSS Styling ---
 st.markdown("""
 <style>
     .stApp { background-color: #0f172a; }
+    
+    /* ප්‍රධාන නම පමණක් රතු පාටින් සහ කුඩාවට */
     .main-title { 
         text-align: center; 
-        color: #ff0000; /* රතු පාට */
-        font-size: 24px; /* අකුරු ප්‍රමාණය කුඩා කළා */
+        color: #ff0000 !important; 
+        font-size: 26px; 
         font-weight: 800; 
-        margin-bottom: 20px; 
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 2px #000000;
     }
+    
     .category-header { 
         background-color: #1e293b; 
         padding: 8px 15px; 
@@ -34,10 +38,11 @@ st.markdown("""
         margin-top: 25px; 
         border-left: 5px solid #ff0000; 
     }
+    
     .login-container { background: #1e293b; padding: 30px; border-radius: 15px; border: 1px solid #334155; }
     .welcome-text { color: #facc15; font-size: 20px; font-weight: bold; margin-bottom: 20px; }
     
-    /* Full Screen Button එක අයින් කිරීමට */
+    /* Full Screen Button Hide */
     button[title="View fullscreen"] { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
@@ -61,7 +66,7 @@ if not st.session_state['is_logged_in']:
                 st.error("Login තොරතුරු වැරදියි!")
         st.markdown('</div>', unsafe_allow_html=True)
 
-# 2. MAIN HUB SECTION (Logged In)
+# 2. MAIN HUB SECTION
 else:
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
     st.sidebar.markdown(f'<h2 style="color:#facc15; text-align:center;">VIEWS: {st.session_state["view_count"]:,}</h2>', unsafe_allow_html=True)
@@ -69,7 +74,7 @@ else:
         st.session_state['is_logged_in'] = False
         st.rerun()
 
-    # දිග ලින්ක් එක කෑලි වලට කඩා ලියා ඇත
+    # දිග ලින්ක් එක Syntax Error නොවන්නට කෑලි කර ඇත
     quiz_url = "https://sciencetist-question-hknjybq5xxdcmrhcjahqol" + ".streamlit.app/"
 
     CATEGORIES = {
