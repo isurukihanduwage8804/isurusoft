@@ -1,114 +1,176 @@
 import streamlit as st
 import random
-import os
 
-# --- 1. දත්ත පද්ධතිය ---
-CATEGORY = "ශාක විද්‍යාව (Botany)"
-all_plants = [
-    "කොස්", "අඹ", "පොල්", "නෙළුම්", "රබර්", "තේ", "කෙසෙල්", "පුවක්", "කුඹුක්", "මහෝගනී",
-    "තක්කාලි", "මිරිස්", "බතල", "කැරට්", "රාබු", "ගෝවා", "කරවිල", "පතෝල", "වට්ටක්කා", "දෙහි",
-    "දොඩම්", "අන්නාසි", "පැපොල්", "පේර", "ජම්බු", "කජු", "දිවුල්", "බෙලි", "නාරං", "වෙරළු",
-    "බෝධි", "නුග", "ඇසතු", "නා", "සල්", "අරලිය", "සපතේරු", "රෝස", "පිච්ච", "නිල්කටරොලු",
-    "කුරුඳු", "කරාබුනැටි", "ගම්මිරිස්", "සාදික්කා", "ඉඟුරු", "කහ", "එනසාල්", "ගොටුකොළ", "කංකුන්", "මුකුණුවැන්න"
-]
+# 1. පිටුවේ මූලික සැකසුම්
+st.set_page_config(page_title="සවුත් විෂන් වෙබ් තක්සලාව", page_icon="🎓", layout="wide")
 
-quiz_data = [
-    ("1", "කොස්"), ("2", "අඹ"), ("3", "පොල්"), ("4", "නෙළුම්"), ("5", "රබර්"),
-    ("6", "තේ"), ("7", "කෙසෙල්"), ("8", "පුවක්"), ("9", "කුඹුක්"), ("10", "මහෝගනී"),
-    ("11", "තක්කාලි"), ("12", "මිරිස්"), ("13", "බතල"), ("14", "කැරට්"), ("15", "රාබු"),
-    ("16", "ගෝවා"), ("17", "කරවිල"), ("18", "පතෝල"), ("19", "වට්ටක්කා"), ("20", "දෙහි"),
-    ("21", "දොඩම්"), ("22", "අන්නාසි"), ("23", "පැපොල්"), ("24", "පේර"), ("25", "ජම්බු")
-]
+# =========================================================
+# යූසර්ලා කළමනාකරණය
+# =========================================================
+USERS = {
+    "isurusoft": "123456",
+}
 
-# --- 2. Page Config & Styling ---
-st.set_page_config(page_title="ශාක පත්‍ර Quiz", page_icon="🍃", layout="centered")
+# --- Session State ---
+if 'view_count' not in st.session_state:
+    st.session_state['view_count'] = 50240 
+if 'counted' not in st.session_state:
+    st.session_state['view_count'] += random.randint(15, 60)
+    st.session_state['counted'] = True
+if 'is_logged_in' not in st.session_state:
+    st.session_state['is_logged_in'] = False
 
+# --- CSS Styling ---
 st.markdown("""
-    <style>
-    .stApp { background: linear-gradient(to bottom, #f1f8e9, #ffffff); }
-    .main-title { color: #2e7d32; text-align: center; font-size: 30px; font-weight: bold; margin-bottom: 20px; }
-    .cat-box { background-color: #c8e6c9; color: #1b5e20; padding: 5px 15px; border-radius: 15px; font-size: 14px; font-weight: bold; margin-bottom: 10px; display: inline-block; }
-    .stButton > button { width: 100%; border-radius: 10px; background-color: #2e7d32; color: white; height: 3em; font-weight: bold; }
-    </style>
-    """, unsafe_allow_html=True)
+<style>
+    .stApp { background-color: #0f172a; }
 
-# --- 3. Session State ---
-if 'score' not in st.session_state: st.session_state.score = 0
-if 'current_q' not in st.session_state: st.session_state.current_q = 0
-if 'options' not in st.session_state: st.session_state.options = None
-if 'answered' not in st.session_state: st.session_state.answered = False
+    /* පින්තූරයේ පෙනුම */
+    .img-container img {
+        width: 100%;
+        border-radius: 10px;
+        pointer-events: none;
+    }
 
-# --- 4. Logic Functions ---
-def check_ans():
-    if st.session_state.user_choice is not None and not st.session_state.answered:
-        st.session_state.answered = True
-        _, correct = quiz_data[st.session_state.current_q]
-        if st.session_state.user_choice == correct:
-            st.session_state.score += 1
-
-def next_q():
-    st.session_state.current_q += 1
-    st.session_state.options = None
-    st.session_state.answered = False
-
-# --- 5. UI Layout ---
-st.markdown(f'<div style="text-align: center;"><span class="cat-box">Category: {CATEGORY}</span></div>', unsafe_allow_html=True)
-st.markdown('<div class="main-title">🍃 ශාක පත්‍ර හඳුනාගැනීමේ අභියෝගය</div>', unsafe_allow_html=True)
-
-# Quiz අවසන් වූ පසු පෙන්වන කොටස
-if st.session_state.current_q >= len(quiz_data):
-    st.balloons()
-    st.success(f"සියල්ල අවසන්! ඔබේ ලකුණු ප්‍රමාණය: {st.session_state.score} / 25")
-    if st.button("නැවත අරඹන්න"):
-        for key in list(st.session_state.keys()): del st.session_state[key]
-        st.rerun()
-else:
-    img_name, correct_ans = quiz_data[st.session_state.current_q]
+    /* ලේබල් සඳහා වෙන්වන හිස් ඉඩ අයින් කිරීම */
+    div[data-testid="stTextInput"] label {
+        display: none !important;
+    }
     
-    if st.session_state.options is None:
-        wrong = random.sample([p for p in all_plants if p != correct_ans], 3)
-        opts = wrong + [correct_ans]
-        random.shuffle(opts)
-        st.session_state.options = opts
+    div[data-testid="stTextInput"] div[data-baseweb="input"] {
+        margin-top: -15px;
+    }
 
-    st.subheader(f"ප්‍රශ්නය {st.session_state.current_q + 1} / 25")
+    /* ලොගින් කොටුවේ පෙනුම */
+    .login-box {
+        background: #1e293b; 
+        padding: 25px; 
+        border-radius: 15px; 
+        border: 1px solid #334155; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
 
-    # Layout බෙදීම
-    col1, col2 = st.columns([1.2, 1], gap="medium")
+    .main-title { 
+        text-align: center; color: #ff0000 !important; font-size: 32px; 
+        font-weight: 800; margin-bottom: 25px; text-shadow: 1px 1px 2px #000000;
+    }
 
+    .get-member {
+        margin-top: 15px; padding-top: 15px; border-top: 1px solid #334155;
+        text-align: center;
+    }
+    
+    .pay-link {
+        color: #28a745 !important; font-weight: bold; text-decoration: none;
+        font-size: 15px; border: 1px solid #28a745; padding: 5px 10px;
+        border-radius: 5px; display: inline-block; margin-top: 5px;
+    }
+
+    .support-text {
+        color: #ffffff; background-color: #ff0000; padding: 10px;
+        border-radius: 5px; text-align: center; font-weight: bold;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# 1. LOGIN SECTION
+if not st.session_state['is_logged_in']:
+    st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns([1.3, 1], gap="medium")
+    
     with col1:
-        # පින්තූරය පෙන්වීම
-        found_path = None
-        for ext in [".jpg", ".JPG", ".jpeg", ".png", ".PNG"]:
-            if os.path.exists(f"{img_name}{ext}"):
-                found_path = f"{img_name}{ext}"
-                break
+        st.markdown('<div class="img-container"><img src="https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png"></div>', unsafe_allow_html=True)
         
-        if found_path:
-            st.image(found_path, width=320)
-        else:
-            st.error(f"පින්තූරය ({img_name}) හමු නොවීය ❌")
-
     with col2:
-        st.write("**පින්තූරයේ ඇති ශාකය කුමක්ද?**")
-        st.radio("පිළිතුරක් තෝරන්න:", st.session_state.options, 
-                 index=None, key="user_choice", on_change=check_ans, 
-                 disabled=st.session_state.answered, label_visibility="collapsed")
-
-        if st.session_state.answered:
-            st.write("---")
-            if st.session_state.user_choice == correct_ans:
-                st.success("නිවැරදියි! 🎉")
+        st.markdown('<div class="login-box">', unsafe_allow_html=True)
+        st.markdown('<h3 style="color:#facc15; text-align:center; margin:0 0 10px 0; border:none;">Member Login</h3>', unsafe_allow_html=True)
+        
+        u = st.text_input("User Name", key="u_name", placeholder="User Name", label_visibility="collapsed")
+        st.write("") 
+        p = st.text_input("Password", type="password", key="p_word", placeholder="Password", label_visibility="collapsed")
+        
+        if st.button("LOGIN NOW", use_container_width=True):
+            if u in USERS and USERS[u] == p:
+                st.session_state['is_logged_in'] = True
+                st.rerun()
             else:
-                st.error(f"වැරදියි! පිළිතුර: {correct_ans}")
-            
-            st.button("ඊළඟ ප්‍රශ්නය ➡️", on_click=next_q)
+                st.error("නම හෝ මුද්‍රාපදය වැරදියි!")
+        
+        st.markdown(f'''
+            <div class="get-member">
+                <p style="color:#cbd5e1; font-size:12px; margin-bottom:5px;">Don't have an account?</p>
+                <p style="color:#ffffff; font-weight:bold; margin-bottom:10px; font-size:14px;">LIFETIME ACCESS - Rs. 1,000/=</p>
+                <a href="https://wa.me/94750211899?text=I%20want%20to%20get%20South%20Vision%20Membership" class="pay-link">
+                    GET MEMBERSHIP
+                </a>
+            </div>
+        ''', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-# Sidebar - Progress & Score
-st.sidebar.markdown(f"### 📊 ඔබේ දක්ෂතාවය")
-st.sidebar.write(f"**ලකුණු:** {st.session_state.score}")
+# 2. MAIN HUB SECTION
+else:
+    st.sidebar.markdown('<div class="support-text">📞 Support: 075 021 1899</div>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
+    
+    st.sidebar.markdown(f'<h2 style="color:#facc15; text-align:center;">VIEWS: {st.session_state["view_count"]:,}</h2>', unsafe_allow_html=True)
+    if st.sidebar.button("LOGOUT", use_container_width=True):
+        st.session_state['is_logged_in'] = False
+        st.rerun()
 
-# Progress bar එක error එකක් නැතිව පෙන්වීම
-progress_val = min((st.session_state.current_q) / 25, 1.0)
-st.sidebar.progress(progress_val)
-st.sidebar.write(f"ප්‍රගතිය: {int(progress_val * 100)}%")
+    quiz_url = "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.app/"
+
+    CATEGORIES = {
+        "🔢 ගණිතය සහ විද්‍යාව": [
+            {"n": "Geometry Dance", "u": "https://shape-aria-m2uzeyna2bdyfdx3xktdgv.streamlit.app/", "i": "📐"},
+            {"n": "Graph Art 2", "u": "https://nicegrap2.streamlit.app/", "i": "🎨"},
+            {"n": "Periodic Table", "u": "https://prtable.streamlit.app/", "i": "🧪"},
+            {"n": "Angle Shape", "u": "https://angaleshape.streamlit.app/", "i": "📐"},
+            {"n": "Atom Animation", "u": "https://atomanimation.streamlit.app/", "i": "⚛️"},
+            {"n": "Grade 5 Maths", "u": "https://grade5maths.streamlit.app/", "i": "🔢"},
+            {"n": "Graph 1", "u": "https://graph-1-4e7bbfbpkg9aw5uvxp9yc6.streamlit.app/", "i": "📊"},
+            {"n": "Maths 680", "u": "https://grade-5-maths-680-ad749ecycarfizcfkyspir.streamlit.app/", "i": "🎓"},
+            {"n": "Grade 4 Maths Master", "u": "https://grade4maths-mfu74gfzjqfwydpcyeonqi.streamlit.app/", "i": "🏫"}
+        ],
+        "📚 භාෂාව සහ දැනුම": [
+            {"n": "IsuruSoft Portal", "u": "https://isurusoft.streamlit.app/", "i": "🌐"},
+            {"n": "Rachana 2", "u": "https://rachana-2new.streamlit.app/", "i": "✍️"},
+            {"n": "Grade 5 Sinhala", "u": "https://grade5sinhalanew.streamlit.app/", "i": "📚"},
+            {"n": "Word Meaning", "u": "https://word-meaning-ndkg9veahhahsqweqimcrz.streamlit.app/", "i": "📖"},
+            {"n": "Budda Darmaya", "u": "https://budda-darmaya-1.streamlit.app/", "i": "☸️"},
+            {"n": "BMI Manager", "u": "https://bmimannew.streamlit.app/", "i": "⚖️"}
+        ],
+        "🎮 ක්‍රීඩා සහ ප්‍රහේලිකා": [
+            {"n": "Water Fraction", "u": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "i": "🥤"},
+            {"n": "Math Combat", "u": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "i": "⚔️"},
+            {"n": "3D App Best", "u": "https://3dappbest.streamlit.app/", "i": "🧊"},
+            {"n": "Sankya Dadayama", "u": "https://sankyadadayamanew2.streamlit.app/", "i": "🎯"},
+            {"n": "Maths Puzzle", "u": "https://mathspuzzle1.streamlit.app/", "i": "🧩"},
+            {"n": "Real Puzzle 1", "u": "https://real-puzzle-1-csyvarjphxh9z9tndnj4ff.streamlit.app/", "i": "🎮"},
+            {"n": "Answer to Ques", "u": "https://anser-to-ques2-c9yurtmondfbzjcpoxguwn.streamlit.app/", "i": "💡"},
+            {"n": "Therawili", "u": "https://therawili-gzggdyxieygqhaifx6jp8k.streamlit.app/", "i": "🕵️"},
+            {"n": "Money Converter", "u": "https://mony-converter-zhtsej33cdvttrtwqhle4q.streamlit.app/", "i": "💱"},
+            {"n": "Shape Converter", "u": "https://shape-converter-fkun3v4m8gx4dyjqkfmt5t.streamlit.app/", "i": "🔄"},
+            {"n": "4 Box Game", "u": "https://4-box-game-95ri7jjkakjyjhzgrhfmgc.streamlit.app/", "i": "📦"},
+            {"n": "Tetris Maths", "u": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "i": "🕹️"}
+        ],
+        "🌍 සාමාන්‍ය දැනීම": [
+            {"n": "විද්‍යාඥයින් කවුද?", "u": quiz_url, "i": "🔬"}
+        ]
+    }
+
+    for cat_name, links in CATEGORIES.items():
+        st.markdown(f'<div style="background-color: #1e293b; padding: 8px 15px; border-radius: 8px; color: #facc15; font-size: 17px; font-weight: bold; margin-top: 20px; border-left: 5px solid #ff0000;">{cat_name}</div>', unsafe_allow_html=True)
+        cols = st.columns(3)
+        for i, item in enumerate(links):
+            with cols[i % 3]:
+                st.link_button(f"{item['i']} {item['n']}", item['u'], use_container_width=True)
+
+# Footer
+st.markdown("---")
+st.markdown("""
+    <div style='text-align: center; color: #64748b; font-size: 13px;'>
+        © 2026 <b>South Vision Web Solutions</b><br>
+        Hotline: 075 021 1899
+    </div>
+""", unsafe_allow_html=True)
