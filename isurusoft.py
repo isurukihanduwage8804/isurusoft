@@ -11,7 +11,6 @@ USERS = {
 }
 
 # --- Session State ---
-# පරණ view_count අදාළ සියලුම කේතයන් මෙතැනින් ඉවත් කරන ලදී.
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
@@ -64,16 +63,17 @@ st.markdown("""
     .support-text {
         color: #ffffff; background-color: #ff0000; padding: 10px;
         border-radius: 5px; text-align: center; font-weight: bold;
+        margin-bottom: 10px;
     }
 
-    /* AdSense සඳහා වටිනාකමක් දෙන විස්තර කොටස */
-    .about-section {
+    .info-card {
         background: #1e293b;
         padding: 15px;
         border-radius: 10px;
         border-left: 4px solid #facc15;
-        margin-top: 20px;
+        margin-top: 10px;
         color: #cbd5e1;
+        font-size: 14px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -85,12 +85,14 @@ if not st.session_state['is_logged_in']:
     col1, col2 = st.columns([1.3, 1], gap="medium")
     
     with col1:
+        # රූපය පෙන්වන කොටස (මෙය නිවැරදිව පවතිනු ඇත)
         st.markdown('<div class="img-container"><img src="https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png"></div>', unsafe_allow_html=True)
-        # AdSense රොබෝවරයාට කියවීමට විස්තරයක් එක් කරන ලදී
+        
         st.markdown("""
-        <div class="about-section">
-            <h4 style="color:#facc15; margin-top:0;">අපේ පෝටල් එක ගැන...</h4>
-            <p style="font-size:14px;">ශ්‍රී ලාංකීය දරුවන්ගේ තර්කන ශක්තිය සහ විෂය දැනුම වර්ධනය කිරීම සඳහා නිර්මාණය කළ අන්තර්ක්‍රියාකාරී මෙවලම් 30කට අධික ප්‍රමාණයක් මෙහි ඇතුළත් වේ. ගණිතය, විද්‍යාව සහ භාෂා දැනුම විනෝදයෙන් ලබා ගැනීමට අදම අප හා එක්වන්න.</p>
+        <div class="info-card">
+            <h4 style="color:#facc15; margin-top:0;">🌟 අපේ පෝටල් එකේ විශේෂත්වය</h4>
+            <p>අධ්‍යාපනික මෙවලම් 30කට අධික ප්‍රමාණයක් මෙහි ඇතුළත් වේ. 
+            ගණිතය, විද්‍යාව සහ භාෂා දැනුම වර්ධනය කරන Interactive Games හරහා ඉගෙනීම විනෝදයක් බවට පත් කරමු.</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -125,9 +127,9 @@ else:
     st.sidebar.markdown('<div class="support-text">📞 Support: 075 021 1899</div>', unsafe_allow_html=True)
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
     
-    # පරණ VIEWS: {count} පේළිය මෙතැනින් ඉවත් කරන ලදී.
-    # ඒ වෙනුවට ලස්සන "සාදරයෙන් පිළිගනිමු" පණිවිඩයක් Sidebar එකට එක් කළා.
-    st.sidebar.success("Logged in as: isurusoft")
+    # Views වෙනුවට Verified Status එකක් පෙන්වීම (වඩා වෘත්තීය මට්ටමක් ලබා දෙයි)
+    st.sidebar.markdown('<div style="text-align:center; color:#28a745; font-weight:bold; border:1px solid #28a745; padding:5px; border-radius:5px;">✅ Verified Account</div>', unsafe_allow_html=True)
+    st.sidebar.write("")
     
     if st.sidebar.button("LOGOUT", use_container_width=True):
         st.session_state['is_logged_in'] = False
