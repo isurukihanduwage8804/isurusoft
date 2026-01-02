@@ -120,7 +120,8 @@ else:
 
     # ලින්ක් එකතු කිරීම
     sci_quiz_url = "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.app/"
-    tree_quiz_url = "https://tree-leave-ht45stbbx8sebv2kjeaguz.streamlit.app/" # ඔබේ අලුත් Quiz එක
+    tree_quiz_url = "https://tree-leave-ht45stbbx8sebv2kjeaguz.streamlit.app/"
+    akuru_bola_url = "https://akuru-ekka-sellam-hcztw5jdbido2yfqpkgnm8.streamlit.app/"
 
     CATEGORIES = {
         "🔢 ගණිතය සහ විද්‍යාව": [
@@ -143,6 +144,7 @@ else:
             {"n": "BMI Manager", "u": "https://bmimannew.streamlit.app/", "i": "⚖️"}
         ],
         "🎮 ක්‍රීඩා සහ ප්‍රහේලිකා": [
+            {"n": "අකුරු බෝල - සිංහල", "u": akuru_bola_url, "i": "🎈"},
             {"n": "Water Fraction", "u": "https://watergame-jr5z9ffafbsutbl67arjz8.streamlit.app/", "i": "🥤"},
             {"n": "Math Combat", "u": "https://sankaya-gatuma-bgypbr5g5w2dofu9emv9xz.streamlit.app/", "i": "⚔️"},
             {"n": "3D App Best", "u": "https://3dappbest.streamlit.app/", "i": "🧊"},
@@ -158,7 +160,7 @@ else:
         ],
         "🌍 සාමාන්‍ය දැනීම": [
             {"n": "විද්‍යාඥයින් කවුද?", "u": sci_quiz_url, "i": "🔬"},
-            {"n": "ශාක පත්‍ර හඳුනාගනිමු", "u": tree_quiz_url, "i": "🍃"} # අලුතින් එකතු කළ ලින්ක් එක
+            {"n": "ශාක පත්‍ර හඳුනාගනිමු", "u": tree_quiz_url, "i": "🍃"}
         ]
     }
 
