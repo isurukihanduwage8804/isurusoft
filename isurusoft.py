@@ -1,5 +1,4 @@
 import streamlit as st
-import random
 
 # 1. පිටුවේ මූලික සැකසුම්
 st.set_page_config(page_title="සවුත් විෂන් වෙබ් තක්සලාව", page_icon="🎓", layout="wide")
@@ -12,11 +11,7 @@ USERS = {
 }
 
 # --- Session State ---
-if 'view_count' not in st.session_state:
-    st.session_state['view_count'] = 50240 
-if 'counted' not in st.session_state:
-    st.session_state['view_count'] += random.randint(15, 60)
-    st.session_state['counted'] = True
+# පරණ view_count අදාළ සියලුම කේතයන් මෙතැනින් ඉවත් කරන ලදී.
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
 
@@ -70,6 +65,16 @@ st.markdown("""
         color: #ffffff; background-color: #ff0000; padding: 10px;
         border-radius: 5px; text-align: center; font-weight: bold;
     }
+
+    /* AdSense සඳහා වටිනාකමක් දෙන විස්තර කොටස */
+    .about-section {
+        background: #1e293b;
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 4px solid #facc15;
+        margin-top: 20px;
+        color: #cbd5e1;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -81,6 +86,13 @@ if not st.session_state['is_logged_in']:
     
     with col1:
         st.markdown('<div class="img-container"><img src="https://raw.githubusercontent.com/isurukihanduwage8804/isurusoft/main/2.png"></div>', unsafe_allow_html=True)
+        # AdSense රොබෝවරයාට කියවීමට විස්තරයක් එක් කරන ලදී
+        st.markdown("""
+        <div class="about-section">
+            <h4 style="color:#facc15; margin-top:0;">අපේ පෝටල් එක ගැන...</h4>
+            <p style="font-size:14px;">ශ්‍රී ලාංකීය දරුවන්ගේ තර්කන ශක්තිය සහ විෂය දැනුම වර්ධනය කිරීම සඳහා නිර්මාණය කළ අන්තර්ක්‍රියාකාරී මෙවලම් 30කට අධික ප්‍රමාණයක් මෙහි ඇතුළත් වේ. ගණිතය, විද්‍යාව සහ භාෂා දැනුම විනෝදයෙන් ලබා ගැනීමට අදම අප හා එක්වන්න.</p>
+        </div>
+        """, unsafe_allow_html=True)
         
     with col2:
         st.markdown('<div class="login-box">', unsafe_allow_html=True)
@@ -113,7 +125,10 @@ else:
     st.sidebar.markdown('<div class="support-text">📞 Support: 075 021 1899</div>', unsafe_allow_html=True)
     st.markdown('<h1 class="main-title">සවුත් විෂන් වෙබ් තක්සලාව</h1>', unsafe_allow_html=True)
     
-    st.sidebar.markdown(f'<h2 style="color:#facc15; text-align:center;">VIEWS: {st.session_state["view_count"]:,}</h2>', unsafe_allow_html=True)
+    # පරණ VIEWS: {count} පේළිය මෙතැනින් ඉවත් කරන ලදී.
+    # ඒ වෙනුවට ලස්සන "සාදරයෙන් පිළිගනිමු" පණිවිඩයක් Sidebar එකට එක් කළා.
+    st.sidebar.success("Logged in as: isurusoft")
+    
     if st.sidebar.button("LOGOUT", use_container_width=True):
         st.session_state['is_logged_in'] = False
         st.rerun()
