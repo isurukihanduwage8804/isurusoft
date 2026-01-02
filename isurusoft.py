@@ -118,7 +118,9 @@ else:
         st.session_state['is_logged_in'] = False
         st.rerun()
 
-    quiz_url = "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.app/"
+    # ලින්ක් එකතු කිරීම
+    sci_quiz_url = "https://sciencetist-question-hknjybq5xxdcmrhcjahqol.streamlit.app/"
+    tree_quiz_url = "https://tree-leave-ht45stbbx8sebv2kjeaguz.streamlit.app/" # ඔබේ අලුත් Quiz එක
 
     CATEGORIES = {
         "🔢 ගණිතය සහ විද්‍යාව": [
@@ -155,7 +157,8 @@ else:
             {"n": "Tetris Maths", "u": "https://tetrics-maths-pawkf7v2qvh52ze8jsqtxn.streamlit.app/", "i": "🕹️"}
         ],
         "🌍 සාමාන්‍ය දැනීම": [
-            {"n": "විද්‍යාඥයින් කවුද?", "u": quiz_url, "i": "🔬"}
+            {"n": "විද්‍යාඥයින් කවුද?", "u": sci_quiz_url, "i": "🔬"},
+            {"n": "ශාක පත්‍ර හඳුනාගනිමු", "u": tree_quiz_url, "i": "🍃"} # අලුතින් එකතු කළ ලින්ක් එක
         ]
     }
 
