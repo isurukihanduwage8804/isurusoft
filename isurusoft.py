@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="සවුත් විෂන් වෙබ් තක්සලාව", page_icon="🎓", layout="wide")
 
-USERS = {"isurusoft": "123456"}
+USERS = {"isurusoft": "svp@2026"}
 
 if 'is_logged_in' not in st.session_state:
     st.session_state['is_logged_in'] = False
